@@ -1,0 +1,60 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import FormRender from './formRender/index.vue';
+const schema = {
+  type: 'object',
+  properties: {
+    input: {
+      title: '简单输入框',
+      type: 'string',
+      min: 6,
+      rules: [
+        {
+          pattern: '^[A-Za-z0-9]+$',
+          message: '只允许填写英文字母和数字',
+        },
+      ],
+    },
+    select: {
+      title: '单选',
+      type: 'string',
+      tooltip: '单项选择',
+      enum: ['a', 'b', 'c'],
+      enumNames: ['早', '中', '晚'],
+    },
+    date: {
+      title: '日期',
+      type: 'string',
+      widget: 'dateRange',
+    },
+    listName2: {
+      title: '对象数组',
+      description: '对象数组嵌套功能',
+      type: 'array',
+      min: 1,
+      max: 3,
+      items: {
+        type: 'object',
+        properties: {
+          input1: {
+            title: '简单输入框',
+            type: 'string',
+          },
+          select1: {
+            title: '单选',
+            type: 'string',
+            enum: ['a', 'b', 'c'],
+            enumNames: ['早', '中', '晚'],
+          },
+        },
+      },
+    },
+  },
+};
+
+const formData = ref({});
+</script>
+
+<template>
+  <FormRender :schema="schema" :initFormData="formData" :data="1" />
+</template>

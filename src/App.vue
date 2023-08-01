@@ -5,48 +5,20 @@ const schema = {
   type: 'object',
   properties: {
     input: {
-      title: '简单输入框',
+      title: '输入框',
       type: 'string',
-      min: 6,
-      rules: [
-        {
-          pattern: '^[A-Za-z0-9]+$',
-          message: '只允许填写英文字母和数字',
-        },
-      ],
+      widget: 'input',
     },
     select: {
-      title: '单选',
+      title: '下拉框',
       type: 'string',
-      tooltip: '单项选择',
-      enum: ['a', 'b', 'c'],
-      enumNames: ['早', '中', '晚'],
-    },
-    date: {
-      title: '日期',
-      type: 'string',
-      widget: 'dateRange',
-    },
-    listName2: {
-      title: '对象数组',
-      description: '对象数组嵌套功能',
-      type: 'array',
-      min: 1,
-      max: 3,
-      items: {
-        type: 'object',
-        properties: {
-          input1: {
-            title: '简单输入框',
-            type: 'string',
-          },
-          select1: {
-            title: '单选',
-            type: 'string',
-            enum: ['a', 'b', 'c'],
-            enumNames: ['早', '中', '晚'],
-          },
-        },
+      widget: 'select',
+      props: {
+        options: [
+          { label: '早', value: 'a' },
+          { label: '中', value: 'b' },
+          { label: '晚', value: 'c' },
+        ],
       },
     },
   },
@@ -56,5 +28,23 @@ const formData = ref({});
 </script>
 
 <template>
-  <FormRender :schema="schema" :initFormData="formData" :data="1" />
+  <div class="contaienr">
+    <div class="test_wrap">
+      <FormRender :schema="schema" :initFormData="formData" :data="1" />
+    </div>
+  </div>
 </template>
+
+<style scoped lang="scss">
+.contaienr {
+  height: 100vh;
+  height: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .test_wrap {
+    margin: auto;
+    width: 600px;
+  }
+}
+</style>

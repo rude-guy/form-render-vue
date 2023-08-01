@@ -16,10 +16,12 @@
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.48.1",
+    "@arco-plugins/vite-vue": "^1.4.5",
     "@types/lodash": "^4.14.195",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "prettier": "3.0.0",
+    "sass": "^1.64.2",
     "typescript": "^5.0.2",
     "unplugin-auto-import": "^0.16.6",
     "vite": "^4.4.0",

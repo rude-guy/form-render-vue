@@ -1,10 +1,6 @@
-import { Input } from '../widgets/index';
-export const mapping = {
+export * as defaultWidgets from '../widgets/index';
+export const mapping: Record<string, string> = {
   default: 'input',
   string: 'input',
   array: 'list',
-};
-
-export const widgets = {
-  Input,
 };

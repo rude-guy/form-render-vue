@@ -4,10 +4,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import FormCore from './form-core/index.tsx';
+import FormCore from './form-core/index.vue';
 import { Schema } from './type';
 import { CSSProperties, computed } from 'vue';
-import { widgets as defaultWidgets } from './models/mapping';
+import { defaultWidgets } from './models/mapping';
 
 interface FCProps {
   /**

@@ -1,4 +1,4 @@
-import { PropType, defineComponent, toRefs } from 'vue';
+<!-- import { PropType, defineComponent, toRefs } from 'vue';
 import { Form, Row } from '@arco-design/web-vue';
 import { useForm } from '../models/useForm';
 import { Schema } from '../type';
@@ -45,4 +45,25 @@ export default defineComponent({
       );
     };
   },
-});
+}); -->
+
+<template>
+  <Form :model="formData">
+    <RenderCore :schema="props.schema" :widgets="props.widgets" />
+  </Form>
+</template>
+<script setup lang="ts">
+import { Form } from '@arco-design/web-vue';
+import { Schema } from '../type';
+import RenderCore from '../render-core/index.vue';
+import { ref } from 'vue';
+interface FormCoreProps {
+  schema: Schema;
+  widgets: Record<string, any>;
+}
+
+const props = defineProps<FormCoreProps>();
+
+const formData = ref();
+</script>
+<style scoped lang="scss"></style>

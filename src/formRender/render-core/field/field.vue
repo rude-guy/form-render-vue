@@ -2,32 +2,22 @@
   <component :is="component" v-bind="root.props"></component>
 </template>
 <script setup lang="ts">
-import { computed, toRefs, watch, watchEffect } from 'vue';
+import { computed, toRefs } from 'vue';
 import { Schema } from '../../type';
-import { capitalizeFirstLetter } from '../../utils';
-import { mapping } from '../../models/mapping';
+import { getWidgetName, getWidget } from '../../models/mapping';
+import { useFormRender } from '../../models/useFormRender';
 
 interface FieldItemProps {
-  widgets: Record<string, any>;
   root: Schema;
 }
 const props = defineProps<FieldItemProps>();
-const { root, widgets } = toRefs(props);
+const { root } = toRefs(props);
 
-const componentName = computed(() => {
-  const { type, widget } = root.value;
-  if (widget) {
-    return capitalizeFirstLetter(widget);
-  }
-  return mapping[type || 'default'];
-});
+const { widgets } = useFormRender();
 
 const component = computed(() => {
-  return widgets.value[componentName.value];
-});
-
-watchEffect(() => {
-  console.log(component.value, widgets.value, root);
+  const name = getWidgetName(root.value);
+  return getWidget(name, widgets.value);
 });
 </script>
 <style scoped lang="scss"></style>

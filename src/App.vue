@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FormRender from './formRender/index.vue';
-const schema = {
+import { Schema } from './formRender/type';
+const schema: Schema = {
   type: 'object',
+  column: 1,
+  displayType: 'horizontal',
   properties: {
-    input: {
-      title: '输入框',
+    input1: {
+      title: 'Field A',
       type: 'string',
-      widget: 'input',
     },
-    select: {
-      title: '下拉框',
+    input2: {
+      title: 'Field B',
       type: 'string',
-      widget: 'select',
-      props: {
-        options: [
-          { label: '早', value: 'a' },
-          { label: '中', value: 'b' },
-          { label: '晚', value: 'c' },
-        ],
-      },
+    },
+    input3: {
+      title: 'Field C',
+      type: 'string',
+    },
+    input4: {
+      title: 'Field D',
+      type: 'string',
     },
   },
 };
@@ -43,8 +45,11 @@ const formData = ref({});
   justify-content: center;
   align-items: center;
   .test_wrap {
+    border: 1px solid #eee;
     margin: auto;
     width: 600px;
+    padding: 16px;
+    box-sizing: border-box;
   }
 }
 </style>

@@ -1,13 +1,15 @@
 <template>
   <div class="form-render">
-    <FormCore v-bind="formCoreProps" />
+    <FormCore v-bind="props" />
   </div>
 </template>
 <script setup lang="ts">
 import FormCore from './form-core/index.vue';
-import { Schema } from './type';
-import { CSSProperties, computed } from 'vue';
+import { RootSchema, Schema } from './type';
+import { CSSProperties, shallowRef } from 'vue';
+import { provideFormRender } from './models/useFormRender';
 import { defaultWidgets } from './models/mapping';
+import { omit } from 'lodash';
 
 interface FCProps {
   /**
@@ -34,10 +36,11 @@ interface FCProps {
 
 const props = defineProps<FCProps>();
 
-const formCoreProps = computed(() => {
-  return {
-    ...props,
-    widgets: { ...props.widgets, ...defaultWidgets },
-  };
-});
+const widgets = shallowRef({ ...props.widgets, ...defaultWidgets });
+
+const globalConfig = shallowRef<RootSchema>({
+  ...omit(props.schema, ['properties']),
+} as RootSchema);
+
+provideFormRender({ widgets, globalConfig });
 </script>

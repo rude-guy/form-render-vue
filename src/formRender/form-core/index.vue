@@ -16,6 +16,10 @@ interface FormCoreProps {
   schema: SchemaBase;
 }
 
+defineOptions({
+  name: 'formCore',
+});
+
 const props = defineProps<FormCoreProps>();
 
 const { formData, globalFormProps } = useFormRender();

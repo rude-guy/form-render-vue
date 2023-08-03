@@ -3,8 +3,10 @@ import FormRender from './formRender/index.vue';
 import { Schema } from './formRender/type';
 const schema: Schema = {
   type: 'object',
-  column: 1,
-  displayType: 'horizontal',
+  column: 2,
+  displayType: 'vertical',
+  // displayType: 'horizontal',
+  // displayType: 'inline',
   properties: {
     input1: {
       title: 'Field A',
@@ -22,6 +24,10 @@ const schema: Schema = {
       title: 'Field D',
       type: 'string',
     },
+    input5: {
+      title: 'Field D',
+      type: 'string',
+    },
   },
 };
 </script>
@@ -33,17 +39,12 @@ const schema: Schema = {
         :schema="schema"
         :data="1"
         :form-props="{
-          disabled: true,
+          disabled: false,
           labelAlign: 'right',
           labelWidth: '100px',
           /** 输入控件最长宽度 */
           maxWidth: '200px',
           /** 表单项内部布局 */
-          // 标签占位格数
-          labelCol: 8,
-          // 标签占位格数
-          FieldCol: 16,
-          displayType: 'vertical',
         }"
       />
     </div>

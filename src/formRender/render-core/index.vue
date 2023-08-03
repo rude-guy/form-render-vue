@@ -3,11 +3,13 @@
     v-if="schema.properties"
     v-for="(item, value) of Object.values(schema.properties)"
   >
-    <Col :span="8">
+    <Col :span="span">
       <FormItem
         :label="item.title"
-        :label-col-props="{ span: 6 }"
-        :wrapper-col-props="{ span: 14 }"
+        :label-col-props="layout.labelCol"
+        :wrapper-col-props="layout.fieldCol"
+        :label-col-style="layout.labelColStyle"
+        :wrapper-col-style="layout.wrapperColStyle"
       >
         <Field :root="item" />
       </FormItem>
@@ -17,26 +19,37 @@
 <script setup lang="ts">
 import { Col } from '@arco-design/web-vue';
 import { computed, toRef, toRefs, watch, watchEffect } from 'vue';
-import { Schema } from '../type';
+import { SchemaBase } from '../type';
 import { FormItem } from '@arco-design/web-vue';
 import Field from './field/field.vue';
 import { useFormRender } from '../models/useFormRender';
-import { getFormItemLayout } from '../models/layout';
+import { getFormItemLayout, getColSpan } from '../models/layout';
 
 interface RenderCoreProps {
-  schema: Schema;
+  schema: SchemaBase;
 }
+
+defineOptions({
+  name: 'renderCore',
+});
+
 const props = defineProps<RenderCoreProps>();
-const { schema } = toRefs(props);
-const { globalConfig } = useFormRender();
+const span = computed(() => {
+  return getColSpan(props.schema.column, props.schema);
+});
 
 const layout = computed(() => {
-  const { column, displayType } = globalConfig.value as any;
-  return getFormItemLayout(column, { displayType });
+  return getFormItemLayout(props.schema.column, props.schema);
 });
 
-watch(layout, () => {
-  console.log(layout.value, 'layout');
-});
+console.log(props);
+
+watch(
+  layout,
+  () => {
+    console.log(layout.value, 'layout');
+  },
+  { immediate: true }
+);
 </script>
 <style scoped lang="scss"></style>

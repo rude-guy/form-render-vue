@@ -41,7 +41,7 @@ const globalFormProps = computed(() => {
 });
 
 const schemaBase = computed(() => {
-  return transformProps(props.schema);
+  return transformProps(props.schema, globalFormProps.value);
 });
 
 provideFormRender({ widgets, globalConfig, globalFormProps });

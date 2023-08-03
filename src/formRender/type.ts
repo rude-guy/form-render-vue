@@ -1,4 +1,4 @@
-import { FieldRule } from '@arco-design/web-vue';
+import type { FieldRule, ColProps } from '@arco-design/web-vue';
 import { CSSProperties } from 'vue';
 export type SchemaType =
   | 'string'
@@ -13,7 +13,7 @@ export type TDisplayType = 'horizontal' | 'vertical' | 'inline';
 
 export interface LayoutBase {
   /** 自定义宽度 */
-  span?: string;
+  span?: number;
   /** 表单标签的固定宽度。 */
   labelWidth?: string;
   /** 输入控件最长宽度 */
@@ -22,7 +22,15 @@ export interface LayoutBase {
   // 标签占位格数
   labelCol?: number;
   // 标签占位格数
-  FieldCol?: number;
+  fieldCol?: number;
+  /** 标签元素布局选项 */
+  labelColProps?: ColProps;
+  /** 表单控件布局选项 */
+  wrapperColProps?: ColProps;
+  /** 标签元素布局组件的 style */
+  labelColStyle?: CSSProperties;
+  /** 表单控件布局组件的 style */
+  wrapperColStyle?: CSSProperties;
 }
 
 export interface FormLayout {

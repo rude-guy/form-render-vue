@@ -1,4 +1,5 @@
 import { FieldRule } from '@arco-design/web-vue';
+import { CSSProperties } from 'vue';
 export type SchemaType =
   | 'string'
   | 'number'
@@ -10,13 +11,42 @@ export type SchemaType =
 
 export type TDisplayType = 'horizontal' | 'vertical' | 'inline';
 
-export interface SchemaBase {
-  /** 表单布局中每行的列数，默认为 3 */
-  column: number;
-  /** 表单元素的集合 */
-  properties?: { [key: string]: SchemaBase };
+export interface LayoutBase {
+  /** 自定义宽度 */
+  span?: string;
+  /** 表单标签的固定宽度。 */
+  labelWidth?: string;
+  /** 输入控件最长宽度 */
+  maxWidth?: string;
+  /** 表单项内部布局 */
+  // 标签占位格数
+  labelCol?: number;
+  // 标签占位格数
+  FieldCol?: number;
+}
+
+export interface FormLayout {
   /** 表单项标签的显示方式，可以是 'horizontal'、'vertical' 或 'inline' */
   displayType: TDisplayType;
+  /** 表单布局中每行的列数，默认为 3 */
+  column: number;
+}
+
+export interface FormProps extends LayoutBase, Partial<FormLayout> {
+  /**
+   * 标签的对齐方向
+   */
+  labelAlign?: 'left' | 'right';
+  /**
+   * 是否禁用表单
+   */
+  disabled?: boolean;
+}
+
+/** 填充默认值后的schema */
+export interface SchemaBase extends LayoutBase, FormLayout {
+  /** 表单元素的集合 */
+  properties?: { [key: string]: Schema };
   /** 表单字段的类型 */
   type?: SchemaType;
   /** 表单字段的标签 */
@@ -60,10 +90,26 @@ export type Schema = Partial<SchemaBase>;
 
 // 顶层schema配置
 export interface RootSchema extends Schema {
-  column?: number;
+  column: number;
   displayType?: TDisplayType;
   /** 表单字段的类型 固定 object */
   type: SchemaType;
 }
 
-export interface FCProps {}
+export interface FormLayoutProps
+  extends Pick<SchemaBase, 'displayType' | 'column'> {
+  /** 表单标签的固定宽度。 */
+  labelWidth?: string;
+
+  /** 表单项跨越的列数。 */
+  cellSpan?: number;
+
+  /** 表单项标签的对齐方式。 */
+  labelAlign?: 'left' | 'right';
+
+  /** 表单项的水平对齐方式（justify-content）。 */
+  justify?: CSSProperties['justify-content'];
+
+  /** 表单项的竖直对齐方式（align-items）。 */
+  align?: CSSProperties['align-items'];
+}

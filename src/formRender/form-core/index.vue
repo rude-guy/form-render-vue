@@ -1,29 +1,35 @@
 <template>
-  <Form :model="formData" :layout="displayType">
+  <Form :model="formData" v-bind="formProps">
     <Row :gutter="24">
       <RenderCore :schema="props.schema" />
     </Row>
   </Form>
 </template>
 <script setup lang="ts">
-import { Form, Row } from '@arco-design/web-vue';
-import { Schema } from '../type';
+import { Form, FormInstance, Row } from '@arco-design/web-vue';
+import { SchemaBase } from '../type';
 import RenderCore from '../render-core/index.vue';
 import { useFormRender } from '../models/useFormRender';
-import { toRefs } from 'vue';
+import { computed } from 'vue';
+
 interface FormCoreProps {
-  schema: Schema;
+  schema: SchemaBase;
 }
 
 const props = defineProps<FormCoreProps>();
-const { displayType, column, type, placeholder } = toRefs(props.schema);
 
-if (type?.value !== 'object') {
-  throw new Error('Form schema must be an object');
-}
+const { formData, globalFormProps } = useFormRender();
 
-const { formData } = useFormRender();
-
-console.log(props);
+// 处理Form组件属性
+const formProps = computed((): Omit<FormInstance['$props'], 'model'> => {
+  let displayType =
+    globalFormProps.value.displayType || props.schema.displayType;
+  return {
+    ...globalFormProps.value,
+    layout: displayType,
+    labelAlign: globalFormProps.value.labelAlign,
+    disabled: globalFormProps.value.disabled,
+  };
+});
 </script>
 <style scoped lang="scss"></style>

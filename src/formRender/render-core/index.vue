@@ -6,7 +6,7 @@
     <Col :span="8">
       <FormItem
         :label="item.title"
-        :label-col-props="{ span: 10 }"
+        :label-col-props="{ span: 6 }"
         :wrapper-col-props="{ span: 14 }"
       >
         <Field :root="item" />
@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import { Col } from '@arco-design/web-vue';
-import { computed, toRef, toRefs } from 'vue';
+import { computed, toRef, toRefs, watch, watchEffect } from 'vue';
 import { Schema } from '../type';
 import { FormItem } from '@arco-design/web-vue';
 import Field from './field/field.vue';
@@ -30,11 +30,13 @@ const props = defineProps<RenderCoreProps>();
 const { schema } = toRefs(props);
 const { globalConfig } = useFormRender();
 
-const d = computed(() => {
-  const { column, displayType } = globalConfig.value;
+const layout = computed(() => {
+  const { column, displayType } = globalConfig.value as any;
   return getFormItemLayout(column, { displayType });
 });
 
-console.log(schema);
+watch(layout, () => {
+  console.log(layout.value, 'layout');
+});
 </script>
 <style scoped lang="scss"></style>

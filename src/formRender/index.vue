@@ -1,15 +1,16 @@
 <template>
   <div class="form-render">
-    <FormCore v-bind="props" />
+    <FormCore v-bind="props" :schema="schemaBase" />
   </div>
 </template>
 <script setup lang="ts">
 import FormCore from './form-core/index.vue';
-import { RootSchema, Schema } from './type';
-import { CSSProperties, shallowRef } from 'vue';
+import { FormProps, RootSchema, Schema } from './type';
+import { computed, shallowRef } from 'vue';
 import { provideFormRender } from './models/useFormRender';
 import { defaultWidgets } from './models/mapping';
 import { omit } from 'lodash';
+import transformProps from './models/transformProps';
 
 interface FCProps {
   /**
@@ -17,21 +18,14 @@ interface FCProps {
    */
   schema: Schema;
   /**
-   * 表单顶层的className
-   */
-  className?: string;
-  /**
-   * 表单顶层的样式
-   */
-  style?: CSSProperties;
-  /**
    * 自定义组件
    */
   widgets?: Record<string, any>;
+
   /**
-   * 表单初始值
-   */
-  initFormData?: Record<string, any>;
+   * 表单相关配置
+   *  */
+  formProps?: FormProps;
 }
 
 const props = defineProps<FCProps>();
@@ -42,5 +36,13 @@ const globalConfig = shallowRef<RootSchema>({
   ...omit(props.schema, ['properties']),
 } as RootSchema);
 
-provideFormRender({ widgets, globalConfig });
+const globalFormProps = computed(() => {
+  return props.formProps || {};
+});
+
+const schemaBase = computed(() => {
+  return transformProps(props.schema);
+});
+
+provideFormRender({ widgets, globalConfig, globalFormProps });
 </script>

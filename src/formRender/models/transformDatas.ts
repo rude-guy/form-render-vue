@@ -9,12 +9,17 @@ export const transformProps = (
   schema: Schema,
   formProps: FormProps = {}
 ): SchemaBase => {
-  const { column, displayType, ...rest } = schema;
+  const { column, ...rest } = schema;
+
+  const displayType = formProps.displayType || schema.displayType || 'vertical';
+  const labelAlign = displayType === 'horizontal' ? 'right' : 'left';
+
   return {
     ...rest,
     ...formProps,
+    labelAlign,
     column: formProps.column || column || 3,
-    displayType: formProps.displayType || displayType || 'vertical',
+    displayType,
   };
 };
 

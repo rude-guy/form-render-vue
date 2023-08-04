@@ -9,7 +9,7 @@ import { FormProps, RootSchema, Schema } from './type';
 import { computed, shallowRef } from 'vue';
 import { provideFormRender } from './models/useFormRender';
 import { defaultWidgets } from './models/mapping';
-import { omit } from 'lodash';
+import { assign, omit, pick } from 'lodash';
 import { transformProps } from './models/transformDatas';
 
 interface FCProps {
@@ -37,12 +37,18 @@ const globalConfig = shallowRef<RootSchema>({
 } as RootSchema);
 
 const globalFormProps = computed(() => {
-  return props.formProps || {};
+  return assign(
+    {},
+    props.formProps,
+    pick(props.schema, 'column', 'displayType')
+  );
 });
 
 const schemaBase = computed(() => {
   return transformProps(props.schema, globalFormProps.value);
 });
+
+console.log(schemaBase.value);
 
 provideFormRender({ widgets, globalConfig, globalFormProps });
 </script>

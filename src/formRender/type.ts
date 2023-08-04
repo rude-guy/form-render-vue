@@ -1,9 +1,4 @@
-import type {
-  FieldRule,
-  ColProps,
-  RowProps,
-  FormItemInstance,
-} from '@arco-design/web-vue';
+import type { FieldRule, ColProps, RowProps } from '@arco-design/web-vue';
 import { CSSProperties } from 'vue';
 export type SchemaType =
   | 'string'
@@ -20,9 +15,9 @@ export interface LayoutBase extends Omit<RowProps, 'gutter'>, ColProps {
   /** 自定义宽度 */
   span?: number;
   /** 表单标签的固定宽度。 */
-  labelWidth?: string;
+  labelWidth?: number;
   /** 输入控件最长宽度 */
-  maxWidth?: string;
+  maxWidth?: number;
   /** 表单项内部布局 */
   // 标签占位格数
   labelCol?: number;

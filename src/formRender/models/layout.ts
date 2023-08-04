@@ -66,13 +66,21 @@ export const getFormItemLayout = (
   }
 
   if (_labelColStyle) {
-    labelColStyle = assign(labelColStyle, _labelColStyle, {
+    labelColStyle = assign(labelColStyle, _labelColStyle);
+  }
+  if (labelWidth || labelWidth === 0) {
+    labelColStyle = assign(labelColStyle, {
+      flex: '0 0' + labelWidth + 'px',
       width: labelWidth + 'px',
     });
   }
 
   if (_wrapperColStyle) {
-    wrapperColStyle = assign(wrapperColStyle, _wrapperColStyle, {
+    wrapperColStyle = assign(wrapperColStyle, _wrapperColStyle);
+  }
+  if (maxWidth || maxWidth === 0) {
+    wrapperColStyle = assign(wrapperColStyle, {
+      flex: '0 0 ' + maxWidth + 'px',
       maxWidth: maxWidth + 'px',
     });
   }

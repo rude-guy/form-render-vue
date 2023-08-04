@@ -1,5 +1,10 @@
 <template>
-  <Form :model="formData" v-bind="formProps" @submit="handleSubmit">
+  <Form
+    :model="formData"
+    v-bind="formProps"
+    @submit="handleSubmit"
+    label-align="right"
+  >
     <Row :gutter="24" v-bind="rowProps">
       <RenderCore :schema="props.schema" />
     </Row>

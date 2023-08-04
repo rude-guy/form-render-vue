@@ -3,9 +3,9 @@
     :field="props.field"
     :label-col-props="layout.labelCol"
     :wrapper-col-props="layout.fieldCol"
-    :label-col-style="{ ...layout.labelColStyle }"
+    :label-col-style="layout.labelColStyle"
     :wrapper-col-style="layout.wrapperColStyle"
-    class="form-render_field_wrap"
+    :class="['form-render_field_wrap', labelClass]"
     v-bind="formItemProps"
   >
     <component
@@ -14,29 +14,27 @@
       :schema="schema"
     ></component>
     <template #label>
-      <div class="label_wrap">
-        <template v-if="schema.title">{{ schema.title }}</template>
-        <TypographyParagraph
-          class="label_desc"
-          :ellipsis="{
-            rows: 1,
-            showTooltip: true,
-          }"
-          v-if="schema.description"
-          >({{ schema.description }})</TypographyParagraph
-        >
-        <Tooltip v-if="schema.tooltip" :content="schema.tooltip"
-          ><IconQuestionCircle style="margin-left: 4px; color: #c9cdd4"
-        /></Tooltip>
-        <div class="label_title_widget" v-if="titleExtraWidget?.widget">
-          <component
-            :is="getWidget(titleExtraWidget.widget, widgets)"
-            v-bind="titleExtraWidget.props"
-          ></component>
-        </div>
+      <template v-if="schema.title">{{ schema.title }}</template>
+      <TypographyParagraph
+        class="label_desc"
+        :ellipsis="{
+          rows: 1,
+          showTooltip: true,
+        }"
+        v-if="schema.description"
+        >({{ schema.description }})</TypographyParagraph
+      >
+      <Tooltip v-if="schema.tooltip" :content="schema.tooltip">
+        <IconQuestionCircle style="margin-left: 12px; color: #c9cdd4" />
+      </Tooltip>
+      <div class="label_title_widget" v-if="labelClass">
+        <component
+          :is="getWidget(titleExtraWidget?.widget!, widgets)"
+          v-bind="titleExtraWidget?.props"
+        ></component>
       </div>
     </template>
-    <template #extra>
+    <template #extra v-if="extraWidget?.widget || schema.extra">
       <template v-if="extraWidget?.widget">
         <component
           :is="getWidget(extraWidget.widget, widgets)"
@@ -45,7 +43,7 @@
       </template>
       <template v-else-if="schema.extra">{{ schema.extra }}</template>
     </template>
-    <template #help>
+    <template #help v-if="helpWidget?.widget || schema.help">
       <template v-if="helpWidget?.widget">
         <component
           :is="getWidget(helpWidget.widget, widgets)"
@@ -57,7 +55,7 @@
   </FormItem>
 </template>
 <script setup lang="ts">
-import { computed, toRefs } from 'vue';
+import { computed } from 'vue';
 import { FormItem, Tooltip, TypographyParagraph } from '@arco-design/web-vue';
 import { IconQuestionCircle } from '@arco-design/web-vue/es/icon';
 import { Schema, TDisplayType } from '../../type';
@@ -69,6 +67,7 @@ import {
 import { useFormRender } from '../../models/useFormRender';
 import { getFormItemLayout } from '../../models/layout';
 import { omit } from 'lodash';
+import { transformProps } from '../../models/transformDatas';
 
 interface FieldItemProps {
   field: string;
@@ -79,9 +78,16 @@ interface FieldItemProps {
 
 const props = defineProps<FieldItemProps>();
 
-const { schema } = toRefs(props);
+const { widgets, globalFormProps } = useFormRender();
 
-const { widgets } = useFormRender();
+const schema = computed(() => {
+  return transformProps(globalFormProps.value, props.schema);
+});
+
+const { required, min, max, rules, hidden, disabled, readOnly, type } =
+  schema.value;
+
+console.log(schema.value, 'schema');
 
 /**
  * 渲染表单组件
@@ -92,7 +98,7 @@ const FormComponent = computed(() => {
 });
 
 const layout = computed(() => {
-  return getFormItemLayout(props.column, props.schema, {
+  return getFormItemLayout(props.column, schema.value, {
     displayType: props.displayType,
   });
 });
@@ -107,42 +113,60 @@ const helpWidget = computed(() => {
   return getCustomWidget(schema.value, schema.value.helpWidget);
 });
 
+const labelClass = computed(() => {
+  const { titleExtraWidget, description } = schema.value;
+  if (props.displayType === 'horizontal') return '';
+  return titleExtraWidget || description ? 'label_title_widget' : '';
+});
+
 // 处理FormIten 透传的数据
 const formItemProps = computed(() => {
   return omit(schema.value, [
+    'displayType',
+    'title',
     'tooltip',
     'titleExtraWidget',
     'extraWidget',
     'helpWidget',
   ]);
 });
+
+console.log(formItemProps.value, 'formItemProps');
 </script>
 <style scoped lang="scss">
-.label_wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  .label_desc {
-    margin-left: 8px;
-    margin-bottom: 0;
-    color: #00000073;
-    max-width: calc(100% / 3);
-  }
-  .label_title_widget {
-    margin-left: auto;
-  }
+// .label_wrap {
+//   flex: 1;
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+.label_desc {
+  margin-left: 8px;
+  margin-bottom: 0;
+  color: #00000073;
+  max-width: calc(100% / 3);
 }
+.label_title_widget {
+  margin-left: auto;
+}
+// }
 </style>
 
 <style lang="scss">
 .form-render_field_wrap {
+  &.label_title_widget {
+    .arco-form-item-label {
+      width: 100%;
+    }
+  }
   .arco-form-item-label {
     display: flex;
     align-items: center;
-    width: 100%;
+
     .arco-form-item-label-required-symbol {
       flex-shrink: 0;
+    }
+    .label_wrap {
+      flex: auto;
     }
   }
 }

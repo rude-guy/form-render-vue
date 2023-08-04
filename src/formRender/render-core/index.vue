@@ -27,6 +27,7 @@ interface RenderCoreProps {
 
 defineOptions({
   name: 'renderCore',
+  inheritAttrs: false,
 });
 
 const props = defineProps<RenderCoreProps>();

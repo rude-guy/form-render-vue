@@ -3,36 +3,65 @@ import FormRender from './formRender/index.vue';
 import { Schema } from './formRender/type';
 const schema: Schema = {
   type: 'object',
-  column: 2,
-  displayType: 'vertical',
-  // displayType: 'horizontal',
-  // displayType: 'inline',
+  column: 1,
+  // displayType: 'vertical',
+  displayType: 'horizontal',
   properties: {
-    'input1.a.b.c.d.e.f': {
-      description: '这是一个很长的副标题',
-      tooltip: '这是一个很长的提示',
-      title: 'Field A',
+    input1: {
+      title: '必填',
       type: 'string',
-      extra: '这是一个很长的额外信息',
-      help: '这是一个很长的帮助信息',
       required: true,
+      description: '21312',
+      tooltip: '21312',
+      titleExtraWidget: {
+        widget: 'input',
+        props: {
+          placeholder: '请输入',
+        },
+      },
     },
     input2: {
-      title: 'Field B',
-      type: 'string',
+      title: '数字最大值',
+      type: 'number',
+      max: 2,
+      required: true,
     },
-    // input3: {
-    //   title: 'Field C',
-    //   type: 'string',
-    // },
-    // input4: {
-    //   title: 'Field D',
-    //   type: 'string',
-    // },
-    // input5: {
-    //   title: 'Field D',
-    //   type: 'string',
-    // },
+    input3: {
+      title: '数字最小值',
+      type: 'number',
+      min: 10,
+      required: true,
+    },
+    input4: {
+      title: '字符最大长度',
+      type: 'string',
+      max: 2,
+      required: true,
+    },
+    input5: {
+      title: '字符最小长度',
+      type: 'string',
+      min: 10,
+      required: true,
+    },
+    input6: {
+      title: 'url 校验',
+      type: 'string',
+      required: true,
+      format: 'url',
+    },
+    input7: {
+      title: 'email 校验',
+      type: 'string',
+      required: true,
+      format: 'email',
+    },
+    input8: {
+      title: '图片格式校验',
+      type: 'string',
+      required: true,
+      format: 'image',
+    },
   },
 };
 </script>
@@ -45,10 +74,8 @@ const schema: Schema = {
         :data="1"
         :form-props="{
           disabled: false,
-          labelAlign: 'right',
-          labelWidth: '100px',
           /** 输入控件最长宽度 */
-          maxWidth: '200px',
+          maxWidth: 200,
         }"
       />
     </div>

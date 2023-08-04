@@ -2,6 +2,8 @@
 import { h } from 'vue';
 import FormRender from './formRender/index.vue';
 import { Schema } from './formRender/type';
+import { IconPlus, IconMinus } from '@arco-design/web-vue/es/icon';
+import { Button } from '@arco-design/web-vue';
 const schema: Schema = {
   type: 'object',
   column: 1,
@@ -46,13 +48,12 @@ const schema: Schema = {
       defaultvalue: 123213,
       tooltip: '21312',
       widget: 'inputNumber',
+      maxWidth: 320,
       props: {
-        mode: 'button',
         slots: {
-          prefix: () => h('div', 'prefix'),
-          suffix: () => {
-            return <div>suffix</div>;
-          },
+          plus: () => <IconPlus />,
+          minus: () => <IconMinus />,
+          prefix: () => <Button type="primary">prefix</Button>,
         },
       },
     },

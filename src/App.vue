@@ -8,26 +8,31 @@ const schema: Schema = {
   // displayType: 'horizontal',
   // displayType: 'inline',
   properties: {
-    input1: {
+    'input1.a.b.c.d.e.f': {
+      description: '这是一个很长的副标题',
+      tooltip: '这是一个很长的提示',
       title: 'Field A',
       type: 'string',
+      extra: '这是一个很长的额外信息',
+      help: '这是一个很长的帮助信息',
+      required: true,
     },
     input2: {
       title: 'Field B',
       type: 'string',
     },
-    input3: {
-      title: 'Field C',
-      type: 'string',
-    },
-    input4: {
-      title: 'Field D',
-      type: 'string',
-    },
-    input5: {
-      title: 'Field D',
-      type: 'string',
-    },
+    // input3: {
+    //   title: 'Field C',
+    //   type: 'string',
+    // },
+    // input4: {
+    //   title: 'Field D',
+    //   type: 'string',
+    // },
+    // input5: {
+    //   title: 'Field D',
+    //   type: 'string',
+    // },
   },
 };
 </script>
@@ -44,7 +49,6 @@ const schema: Schema = {
           labelWidth: '100px',
           /** 输入控件最长宽度 */
           maxWidth: '200px',
-          /** 表单项内部布局 */
         }"
       />
     </div>

@@ -20,7 +20,51 @@ export const useFormRender = () => {
   const globalConfig = (inject(GLOBAL_CONFIG) || ref({})) as Ref<RootSchema>;
   const globalFormProps = inject(GLOBAL_FORM_PROPS) as ComputedRef<FormProps>;
 
-  return { widgets, formData, globalConfig, globalFormProps };
+  // 辅助函数，用于获取嵌套对象属性的值
+  const getValueByStringPath = <R extends any>(
+    obj: Record<string, any>,
+    path: string
+  ) => {
+    if (path == null) return void 0;
+    return path.split('.').reduce((acc, key) => {
+      if (acc && typeof acc === 'object' && Object.hasOwn(acc, key)) {
+        return acc[key];
+      } else {
+        return undefined;
+      }
+    }, obj) as R;
+  };
+
+  // 辅助函数，用于设置嵌套对象属性的值，显式创建对象
+  const setValueByStringPath = <V extends any>(
+    obj: Record<string, any>,
+    path: string,
+    value: V
+  ) => {
+    if (path == null) return;
+    const keys = path.split('.');
+    keys.reduce((acc, key, index) => {
+      if (!acc && typeof acc === 'object') {
+        return undefined;
+      }
+      if (!Object.hasOwn(acc, key)) {
+        acc[key] = {};
+      }
+      if (index === keys.length - 1) {
+        acc[key] = value;
+      }
+      return acc[key];
+    }, obj);
+  };
+
+  return {
+    widgets,
+    formData,
+    globalConfig,
+    globalFormProps,
+    getValueByStringPath,
+    setValueByStringPath,
+  };
 };
 
 export const provideFormRender = (params?: FormRenderProvide) => {

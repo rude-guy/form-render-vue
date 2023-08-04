@@ -10,7 +10,7 @@ import { computed, shallowRef } from 'vue';
 import { provideFormRender } from './models/useFormRender';
 import { defaultWidgets } from './models/mapping';
 import { omit } from 'lodash';
-import transformProps from './models/transformProps';
+import { transformProps } from './models/transformDatas';
 
 interface FCProps {
   /**

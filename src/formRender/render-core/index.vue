@@ -1,29 +1,25 @@
 <template>
   <template
     v-if="schema.properties"
-    v-for="(item, value) of Object.values(schema.properties)"
+    v-for="(item, value) of Object.entries(schema.properties)"
   >
-    <Col :span="span">
-      <FormItem
-        :label="item.title"
-        :label-col-props="layout.labelCol"
-        :wrapper-col-props="layout.fieldCol"
-        :label-col-style="layout.labelColStyle"
-        :wrapper-col-style="layout.wrapperColStyle"
-      >
-        <Field :root="item" />
-      </FormItem>
+    <Col :span="span" v-bind="colProps">
+      <Field
+        :field="item[0]"
+        :column="schema.column"
+        :schema="item[1]"
+        :displayType="schema.displayType"
+      />
     </Col>
   </template>
 </template>
 <script setup lang="ts">
-import { Col } from '@arco-design/web-vue';
-import { computed, toRef, toRefs, watch, watchEffect } from 'vue';
+import { Col, ColProps } from '@arco-design/web-vue';
+import { computed } from 'vue';
 import { SchemaBase } from '../type';
-import { FormItem } from '@arco-design/web-vue';
 import Field from './field/field.vue';
-import { useFormRender } from '../models/useFormRender';
-import { getFormItemLayout, getColSpan } from '../models/layout';
+import { getColSpan } from '../models/layout';
+import { pick } from 'lodash';
 
 interface RenderCoreProps {
   schema: SchemaBase;
@@ -38,18 +34,18 @@ const span = computed(() => {
   return getColSpan(props.schema.column, props.schema);
 });
 
-const layout = computed(() => {
-  return getFormItemLayout(props.schema.column, props.schema);
+const colProps = computed((): Omit<ColProps, 'span'> => {
+  return pick(props.schema, [
+    'offset',
+    'order',
+    'flex',
+    'xs',
+    'sm',
+    'md',
+    'lg',
+    'xl',
+    'xxl',
+  ]);
 });
-
-console.log(props);
-
-watch(
-  layout,
-  () => {
-    console.log(layout.value, 'layout');
-  },
-  { immediate: true }
-);
 </script>
 <style scoped lang="scss"></style>

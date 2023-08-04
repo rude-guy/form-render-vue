@@ -1,4 +1,9 @@
-import type { FieldRule, ColProps } from '@arco-design/web-vue';
+import type {
+  FieldRule,
+  ColProps,
+  RowProps,
+  FormItemInstance,
+} from '@arco-design/web-vue';
 import { CSSProperties } from 'vue';
 export type SchemaType =
   | 'string'
@@ -11,7 +16,7 @@ export type SchemaType =
 
 export type TDisplayType = 'horizontal' | 'vertical' | 'inline';
 
-export interface LayoutBase {
+export interface LayoutBase extends Omit<RowProps, 'gutter'>, ColProps {
   /** 自定义宽度 */
   span?: number;
   /** 表单标签的固定宽度。 */
@@ -51,6 +56,15 @@ export interface FormProps extends LayoutBase, Partial<FormLayout> {
   disabled?: boolean;
 }
 
+export interface IWidgetExpandReturnType<Props = any> {
+  widget?: string;
+  props?: Props;
+}
+
+export type TWidgetCustomType =
+  | IWidgetExpandReturnType
+  | ((schema: Schema) => IWidgetExpandReturnType);
+
 /** 填充默认值后的schema */
 export interface SchemaBase extends LayoutBase, FormLayout {
   /** 表单元素的集合 */
@@ -68,9 +82,15 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   /** 气泡提示 */
   tooltip?: string;
   /** 自定义标题右侧组件 */
-  titleWidget?: string;
+  titleExtraWidget?: TWidgetCustomType;
   /** 更多的说明信息 */
   extra?: string;
+  /** 自定义标题extra组件 */
+  extraWidget?: TWidgetCustomType;
+  /** 帮助信息 */
+  help?: string;
+  /** 自定义帮助组件 */
+  helpWidget?: TWidgetCustomType;
   /** 是否必填 */
   required?: boolean;
   /** 字符串类型为字符串最小长度；数值类型时为最小值；数组类型时为数组最小长度 */

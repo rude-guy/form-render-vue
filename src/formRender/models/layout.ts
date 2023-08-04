@@ -1,11 +1,15 @@
 import type { ColProps } from '@arco-design/web-vue';
-import { SchemaBase } from '../type';
+import { Schema, TDisplayType } from '../type';
 import { CSSProperties } from 'vue';
 import { assign } from 'lodash';
 
-export const getFormItemLayout = (column: number, schema: SchemaBase) => {
+export const getFormItemLayout = (
+  column: number,
+  schema: Schema,
+  options: { displayType: TDisplayType }
+) => {
+  const { displayType } = options;
   const {
-    displayType,
     labelCol: _labelCol,
     fieldCol: _filedCol,
     labelColProps,
@@ -76,12 +80,16 @@ export const getFormItemLayout = (column: number, schema: SchemaBase) => {
   return { labelCol, fieldCol, labelColStyle, wrapperColStyle };
 };
 
-export const getColSpan = (column: number, schema: SchemaBase) => {
+export const getColSpan = (column: number, schema: Schema) => {
   let span = 24;
-
   if (column) {
     span = 24 / column;
   }
+
+  if (schema.offset) {
+    span = span - schema.offset;
+  }
+
   if (schema.span) {
     span = schema.span;
   }

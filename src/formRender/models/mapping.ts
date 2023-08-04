@@ -1,4 +1,4 @@
-import { Schema } from '../type';
+import { Schema, TWidgetCustomType } from '../type';
 export * as defaultWidgets from '../widgets/index';
 
 export const mapping: Record<string, string> = {
@@ -34,4 +34,14 @@ export const getWidget = (name: string, widgets: Record<string, any>) => {
   }
 
   return widget;
+};
+
+export const getCustomWidget = (
+  schema: Schema,
+  customWidget?: TWidgetCustomType
+) => {
+  if (typeof customWidget === 'function') {
+    return customWidget(schema);
+  }
+  return customWidget;
 };

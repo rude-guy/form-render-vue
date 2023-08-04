@@ -6,6 +6,7 @@
     :label-col-style="layout.labelColStyle"
     :wrapper-col-style="layout.wrapperColStyle"
     :class="['form-render_field_wrap', labelClass]"
+    :rules="schema.readOnly ? [] : ruleList"
     v-bind="formItemProps"
   >
     <component
@@ -68,6 +69,7 @@ import { useFormRender } from '../../models/useFormRender';
 import { getFormItemLayout } from '../../models/layout';
 import { omit } from 'lodash';
 import { transformProps } from '../../models/transformDatas';
+import { getRuleList } from '../../models/validates';
 
 interface FieldItemProps {
   field: string;
@@ -78,16 +80,20 @@ interface FieldItemProps {
 
 const props = defineProps<FieldItemProps>();
 
-const { widgets, globalFormProps } = useFormRender();
+const { formData, widgets, globalFormProps } = useFormRender();
 
 const schema = computed(() => {
   return transformProps(globalFormProps.value, props.schema);
 });
 
-const { required, min, max, rules, hidden, disabled, readOnly, type } =
-  schema.value;
+const { required, min, max, hidden, disabled, type } = schema.value;
+// TODO:
+// 1. readOnly -> readOnlyWidget
+// 2. hidden -> Function
 
-console.log(schema.value, 'schema');
+const ruleList = computed(() => {
+  return getRuleList(schema.value, formData.value);
+});
 
 /**
  * 渲染表单组件
@@ -130,15 +136,8 @@ const formItemProps = computed(() => {
     'helpWidget',
   ]);
 });
-
-console.log(formItemProps.value, 'formItemProps');
 </script>
 <style scoped lang="scss">
-// .label_wrap {
-//   flex: 1;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
 .label_desc {
   margin-left: 8px;
   margin-bottom: 0;
@@ -148,7 +147,6 @@ console.log(formItemProps.value, 'formItemProps');
 .label_title_widget {
   margin-left: auto;
 }
-// }
 </style>
 
 <style lang="scss">

@@ -7,9 +7,25 @@ export type SchemaType =
   | 'array'
   | 'range'
   | 'object'
+  | 'email'
+  | 'url'
+  | 'ip'
+  | 'image'
   | string;
 
 export type TDisplayType = 'horizontal' | 'vertical' | 'inline';
+
+export type TFormatType =
+  | 'image'
+  | 'textarea'
+  | 'color'
+  | 'email'
+  | 'url'
+  | 'dateTime'
+  | 'date'
+  | 'time'
+  | 'upload'
+  | string;
 
 export interface LayoutBase extends Omit<RowProps, 'gutter'>, ColProps {
   /** 自定义宽度 */
@@ -92,6 +108,20 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   min?: number;
   /** 字符串类型为字符串最大长度；数值类型时为最大值；数组类型时为数组最大长度 */
   max?: number;
+  /** 正则匹配 */
+  pattern?: RegExp;
+  /** 错误提示 */
+  message?: string;
+  /** 在已设置的 type 下，如何处理这个 type */
+  format?: TFormatType;
+  /** 自定义校验函数 */
+  validator?: (
+    value: any | undefined,
+    formData: any
+  ) => Promise<{
+    status: boolean;
+    message: string;
+  }>;
   /** 校验规则，参考 Arco Form FieldRule */
   rules?: FieldRule[];
   /** 是否隐藏 */

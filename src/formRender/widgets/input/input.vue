@@ -14,10 +14,11 @@
 <script setup lang="ts">
 import { Input as ArcoInput } from '@arco-design/web-vue';
 import type { InputInstance } from '@arco-design/web-vue';
-import RenderVnode from '../../render-core/renderVnode';
+import RenderVnode from '../../utils/renderVnode';
 import { Schema, SlotTypeMap } from '../../type';
 import { renderVnode } from '../../utils';
 import { useField } from '../../models/useField';
+import { toRef } from 'vue';
 
 type ArcoInputProps = InputInstance['$props'];
 
@@ -29,6 +30,8 @@ const props = defineProps<{
   path: string;
   schema: Schema;
 }>();
+
+const schema = toRef(props, 'schema');
 
 const { model, placeholder } = useField(props);
 </script>

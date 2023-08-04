@@ -37,6 +37,25 @@ const schema: Schema = {
       max: 2,
       required: true,
     },
+    inputNumber: {
+      title: '必填',
+      type: 'string',
+      required: true,
+      description: '21312',
+      placeholder: ['请输入', 'asda'],
+      defaultvalue: 123213,
+      tooltip: '21312',
+      widget: 'inputNumber',
+      props: {
+        mode: 'button',
+        slots: {
+          prefix: () => h('div', 'prefix'),
+          suffix: () => {
+            return <div>suffix</div>;
+          },
+        },
+      },
+    },
   },
 };
 </script>

@@ -1,4 +1,4 @@
-import { computed, onMounted, toRefs } from 'vue';
+import { computed, onMounted } from 'vue';
 import { Schema } from '../type';
 import { getStringFromArrayOrString } from '../utils';
 import { useFormRender } from './useFormRender';
@@ -9,21 +9,20 @@ interface IFieldProps {
 }
 
 export const useField = (props: IFieldProps) => {
-  const { path, schema } = toRefs(props);
+  const { schema, path } = props;
   const { formData, getValueByStringPath, setValueByStringPath } =
     useFormRender();
   const placeholder = computed(() =>
-    getStringFromArrayOrString(schema.value.placeholder)
+    getStringFromArrayOrString(schema.placeholder)
   );
 
   const model = computed({
-    get: () => getValueByStringPath<string>(formData.value, path.value),
-    set: (newValue) =>
-      setValueByStringPath(formData.value, path.value, newValue),
+    get: () => getValueByStringPath<string>(formData.value, path),
+    set: (newValue) => setValueByStringPath(formData.value, path, newValue),
   });
 
   onMounted(() => {
-    model.value = model.value || schema.value.defaultvalue;
+    model.value = model.value || schema.defaultvalue;
   });
 
   return {

@@ -15,12 +15,9 @@
 import { Input as ArcoInput } from '@arco-design/web-vue';
 import type { InputInstance } from '@arco-design/web-vue';
 import RenderVnode from '../../render-core/renderVnode';
-import { useFormRender } from '../../models/useFormRender';
-import { computed } from 'vue';
 import { Schema, SlotTypeMap } from '../../type';
-import { toRef } from 'vue';
-import { getStringFromArrayOrString, renderVnode } from '../../utils';
-import { onMounted } from 'vue';
+import { renderVnode } from '../../utils';
+import { useField } from '../../models/useField';
 
 type ArcoInputProps = InputInstance['$props'];
 
@@ -33,21 +30,5 @@ const props = defineProps<{
   schema: Schema;
 }>();
 
-const schema = toRef(props, 'schema');
-const { formData, getValueByStringPath, setValueByStringPath } =
-  useFormRender();
-
-const placeholder = computed(() =>
-  getStringFromArrayOrString(schema.value.placeholder)
-);
-
-const model = computed({
-  get: () => getValueByStringPath<string>(formData.value, props.path),
-  set: (newValue) => setValueByStringPath(formData.value, props.path, newValue),
-});
-
-onMounted(() => {
-  model.value = model.value || schema.value.defaultvalue;
-});
+const { model, placeholder } = useField(props);
 </script>
-<style scoped lang="scss"></style>

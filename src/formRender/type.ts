@@ -1,5 +1,5 @@
+import { CSSProperties, VNodeTypes } from 'vue';
 import type { FieldRule, ColProps, RowProps } from '@arco-design/web-vue';
-import { CSSProperties } from 'vue';
 export type SchemaType =
   | 'string'
   | 'number'
@@ -76,6 +76,15 @@ export type TWidgetCustomType =
   | IWidgetExpandReturnType
   | ((schema: Schema) => IWidgetExpandReturnType);
 
+export type TRenderSlotType =
+  | ((schema?: Schema) => JSX.Element | VNodeTypes)
+  | JSX.Element
+  | VNodeTypes;
+
+export type SlotTypeMap<T> = {
+  [K in keyof T]: TRenderSlotType;
+};
+
 /** 填充默认值后的schema */
 export interface SchemaBase extends LayoutBase, FormLayout {
   /** 表单元素的集合 */
@@ -86,8 +95,6 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   title?: string;
   /** 指定渲染的控件，可以是 form-render 的内置组件，也可以是自定义组件 */
   widget?: string;
-  /** 输入内容的提示文本 */
-  placeholder?: string | [string, string];
   /** 副标题描述 */
   description?: string;
   /** 气泡提示 */
@@ -132,10 +139,16 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   readOnly?: boolean;
   /** 当依赖的元素更新时，会触发本元素的重新渲染，用于复杂的表单联动 */
   dependencies?: string[];
+
+  /** 输入内容的提示文本 */
+  placeholder?: string | [string, string];
+  /** 默认值 */
+  defaultvalue: any;
   /** 自定义控件 class 名称 */
   className?: string;
   /** 额外属性配置，如果使用的是 antd 组件，则对应的是 antd 组件的其他属性 */
   props?: Record<string, any>;
+
   [key: string]: any;
 }
 

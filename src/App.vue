@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import { h } from 'vue';
 import FormRender from './formRender/index.vue';
 import { Schema } from './formRender/type';
 const schema: Schema = {
@@ -12,11 +13,21 @@ const schema: Schema = {
       type: 'string',
       required: true,
       description: '21312',
+      placeholder: ['请输入', 'asda'],
+      defaultvalue: '213213',
       tooltip: '21312',
       titleExtraWidget: {
         widget: 'input',
         props: {
           placeholder: '请输入',
+        },
+      },
+      props: {
+        slots: {
+          prefix: () => h('div', 'prefix'),
+          suffix: () => {
+            return <div>suffix</div>;
+          },
         },
       },
     },
@@ -25,42 +36,6 @@ const schema: Schema = {
       type: 'number',
       max: 2,
       required: true,
-    },
-    input3: {
-      title: '数字最小值',
-      type: 'number',
-      min: 10,
-      required: true,
-    },
-    input4: {
-      title: '字符最大长度',
-      type: 'string',
-      max: 2,
-      required: true,
-    },
-    input5: {
-      title: '字符最小长度',
-      type: 'string',
-      min: 10,
-      required: true,
-    },
-    input6: {
-      title: 'url 校验',
-      type: 'string',
-      required: true,
-      format: 'url',
-    },
-    input7: {
-      title: 'email 校验',
-      type: 'string',
-      required: true,
-      format: 'email',
-    },
-    input8: {
-      title: '图片格式校验',
-      type: 'string',
-      required: true,
-      format: 'image',
     },
   },
 };
@@ -75,7 +50,6 @@ const schema: Schema = {
         :form-props="{
           disabled: false,
           /** 输入控件最长宽度 */
-          maxWidth: 200,
         }"
       />
     </div>

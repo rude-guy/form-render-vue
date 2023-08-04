@@ -48,7 +48,5 @@ const schemaBase = computed(() => {
   return transformProps(props.schema, globalFormProps.value);
 });
 
-console.log(schemaBase.value);
-
 provideFormRender({ widgets, globalConfig, globalFormProps });
 </script>

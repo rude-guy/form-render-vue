@@ -65,6 +65,18 @@ export interface FormProps extends LayoutBase, Partial<FormLayout> {
    * 是否禁用表单
    */
   disabled?: boolean;
+  /**
+   * 表单控件大小，默认为 `medium`
+   */
+  size?: 'mini' | 'small' | 'medium' | 'large';
+  /**
+   * 表单项校验规则
+   */
+  rules?: Record<string, FieldRule | FieldRule[]>;
+  /**
+   * 是否开启自动标签宽度，仅在 layout="horizontal" 下生效。
+   */
+  autoLabelWidth?: boolean;
 }
 
 export interface IWidgetExpandReturnType<Props = any> {

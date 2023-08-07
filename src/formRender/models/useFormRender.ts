@@ -1,4 +1,4 @@
-import { ComputedRef, Ref, inject, provide, ref } from 'vue';
+import { ComputedRef, Ref, ShallowRef, inject, provide, ref } from 'vue';
 import { FormProps, RootSchema } from '../type';
 const FORM_RENDER_KEY = Symbol('FORM_RENDER_KEY');
 const FORM_DATA = Symbol('FORM_DATA');
@@ -8,12 +8,12 @@ const GLOBAL_FORM_PROPS = Symbol('GLOBAL_FORM_PROPS');
 interface FormRenderProvide {
   globalConfig: Ref<RootSchema>;
   formData?: Ref<Record<string, any>>;
-  widgets?: Ref<Record<string, any>>;
+  widgets?: ShallowRef<Record<string, any>>;
   globalFormProps?: ComputedRef<FormProps>;
 }
 
 export const useFormRender = () => {
-  const widgets = (inject(FORM_RENDER_KEY) || ref({})) as Ref<
+  const widgets = (inject(FORM_RENDER_KEY) || ref({})) as ShallowRef<
     Record<string, any>
   >;
   const formData = (inject(FORM_DATA) || ref({})) as Ref<Record<string, any>>;

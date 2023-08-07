@@ -27,9 +27,7 @@ const schema: Schema = {
       props: {
         slots: {
           prefix: () => h('div', 'prefix'),
-          suffix: () => {
-            return <div>suffix</div>;
-          },
+          suffix: <div>suffix</div>,
         },
       },
     },
@@ -53,7 +51,10 @@ const schema: Schema = {
         slots: {
           plus: () => <IconPlus />,
           minus: () => <IconMinus />,
-          prefix: () => <Button type="primary">prefix</Button>,
+          prefix: (schema: any) => {
+            console.log(schema);
+            return <Button>21312</Button>;
+          },
         },
       },
     },

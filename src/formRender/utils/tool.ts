@@ -39,3 +39,8 @@ export const renderVnode = (vnode: JSX.Element | (() => JSX.Element)) => {
   }
   return vnode;
 };
+
+// 判断是否为函数
+export const isFn = (value: any): value is Function => {
+  return typeof value === 'function';
+};

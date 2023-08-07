@@ -1,10 +1,5 @@
 <template>
-  <Form
-    :model="formData"
-    v-bind="formProps"
-    @submit="handleSubmit"
-    label-align="right"
-  >
+  <Form :model="formData" v-bind="formProps" @submit="handleSubmit">
     <Row :gutter="24" v-bind="rowProps">
       <RenderCore :schema="props.schema" />
     </Row>
@@ -38,15 +33,17 @@ const formProps = computed(() => {
   let displayType =
     globalFormProps.value.displayType || props.schema.displayType;
   return {
-    ...globalFormProps.value,
+    size: globalFormProps.value.size,
+    rules: globalFormProps.value.rules,
     layout: displayType,
     labelAlign: globalFormProps.value.labelAlign,
     disabled: globalFormProps.value.disabled,
+    autoLabelWidth: globalFormProps.value.autoLabelWidth,
   };
 });
 
 const rowProps = computed((): Omit<RowProps, 'gutter'> => {
-  return pick(formProps.value, ['justify', 'align', 'wrap', 'div']);
+  return pick(globalFormProps.value, ['justify', 'align', 'wrap', 'div']);
 });
 
 const handleSubmit = (data: any) => {

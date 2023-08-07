@@ -54,5 +54,5 @@ const schemaBase = computed(() => {
 // 注入全局配置
 provideGlobalConfig({ widgets, globalConfig });
 
-provideFormRender({ widgets, globalConfig, globalFormProps });
+provideFormRender();
 </script>

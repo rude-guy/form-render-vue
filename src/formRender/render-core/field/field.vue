@@ -78,6 +78,7 @@ import { getColSpan, getFormItemLayout } from '../../models/layout';
 import { omit, pick } from 'lodash';
 import { getRuleList } from '../../models/validates';
 import { useProvider } from '../../models/useProvider';
+import { useGlobalConfig } from '../../models/useGlobalConfig';
 
 interface FieldItemProps {
   field: string;
@@ -90,7 +91,8 @@ interface FieldItemProps {
 
 const props = defineProps<FieldItemProps>();
 
-const { formData, widgets } = useFormRender();
+const { formData } = useFormRender();
+const { widgets } = useGlobalConfig();
 
 const { schema } = useProvider({ parent: props.parent, schema: props.schema });
 

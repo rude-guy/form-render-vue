@@ -2,8 +2,8 @@ import { defineComponent, ref, toRef } from 'vue';
 import { Schema, TRenderSlotType } from '../type';
 import { useField } from '../models/useField';
 import { isFn } from './tool';
-import { useFormRender } from '../models/useFormRender';
 import { getWidget } from '../models/mapping';
+import { useGlobalConfig } from '../models/useGlobalConfig';
 
 const getProps = (props: any, filter: any[]) => {
   const result: Record<string, any> = {};
@@ -50,7 +50,7 @@ const withFieldWrap = (Field: any, filterProps = []) => {
         schema: Schema;
       };
       const { model, placeholder } = useField(props);
-      const { widgets } = useFormRender();
+      const { widgets } = useGlobalConfig();
 
       const schema = toRef(props, 'schema', {});
       const rest = getProps(schema.value.props, filterProps);

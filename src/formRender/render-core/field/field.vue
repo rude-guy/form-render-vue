@@ -1,63 +1,71 @@
 <template>
-  <FormItem
-    :field="props.field"
-    :label-col-props="layout.labelCol"
-    :wrapper-col-props="layout.fieldCol"
-    :label-col-style="layout.labelColStyle"
-    :wrapper-col-style="layout.wrapperColStyle"
-    :class="['form-render_field_wrap', labelClass]"
-    :rules="schema.readOnly ? [] : ruleList"
-    v-bind="formItemProps"
-  >
-    <component
-      :is="FormComponent"
-      :path="props.field"
-      :schema="schema"
-    ></component>
-    <template #label>
-      <template v-if="schema.title">{{ schema.title }}</template>
-      <TypographyParagraph
-        class="label_desc"
-        :ellipsis="{
-          rows: 1,
-          showTooltip: true,
-        }"
-        v-if="schema.description"
-        >({{ schema.description }})</TypographyParagraph
-      >
-      <Tooltip v-if="schema.tooltip" :content="schema.tooltip">
-        <IconQuestionCircle style="margin-left: 12px; color: #c9cdd4" />
-      </Tooltip>
-      <div class="label_title_widget" v-if="labelClass">
-        <component
-          :is="getWidget(titleExtraWidget?.widget!, widgets)"
-          v-bind="titleExtraWidget?.props"
-        ></component>
-      </div>
-    </template>
-    <template #extra v-if="extraWidget?.widget || schema.extra">
-      <template v-if="extraWidget?.widget">
-        <component
-          :is="getWidget(extraWidget.widget, widgets)"
-          v-bind="extraWidget.props"
-        ></component>
+  <Col :span="span" v-bind="colProps">
+    <FormItem
+      :field="props.field"
+      :label-col-props="layout.labelCol"
+      :wrapper-col-props="layout.fieldCol"
+      :label-col-style="layout.labelColStyle"
+      :wrapper-col-style="layout.wrapperColStyle"
+      :class="['form-render_field_wrap', labelClass]"
+      :rules="schema.readOnly ? [] : ruleList"
+      v-bind="formItemProps"
+    >
+      <component
+        :is="FormComponent"
+        :path="props.field"
+        :schema="schema"
+      ></component>
+      <template #label>
+        <template v-if="schema.title">{{ schema.title }}</template>
+        <TypographyParagraph
+          class="label_desc"
+          :ellipsis="{
+            rows: 1,
+            showTooltip: true,
+          }"
+          v-if="schema.description"
+          >({{ schema.description }})</TypographyParagraph
+        >
+        <Tooltip v-if="schema.tooltip" :content="schema.tooltip">
+          <IconQuestionCircle style="margin-left: 12px; color: #c9cdd4" />
+        </Tooltip>
+        <div class="label_title_widget" v-if="labelClass">
+          <component
+            :is="getWidget(titleExtraWidget?.widget!, widgets)"
+            v-bind="titleExtraWidget?.props"
+          ></component>
+        </div>
       </template>
-      <template v-else-if="schema.extra">{{ schema.extra }}</template>
-    </template>
-    <template #help v-if="helpWidget?.widget || schema.help">
-      <template v-if="helpWidget?.widget">
-        <component
-          :is="getWidget(helpWidget.widget, widgets)"
-          v-bind="helpWidget.props"
-        ></component>
+      <template #extra v-if="extraWidget?.widget || schema.extra">
+        <template v-if="extraWidget?.widget">
+          <component
+            :is="getWidget(extraWidget.widget, widgets)"
+            v-bind="extraWidget.props"
+          ></component>
+        </template>
+        <template v-else-if="schema.extra">{{ schema.extra }}</template>
       </template>
-      <template v-else-if="schema.help">{{ schema.help }}</template>
-    </template>
-  </FormItem>
+      <template #help v-if="helpWidget?.widget || schema.help">
+        <template v-if="helpWidget?.widget">
+          <component
+            :is="getWidget(helpWidget.widget, widgets)"
+            v-bind="helpWidget.props"
+          ></component>
+        </template>
+        <template v-else-if="schema.help">{{ schema.help }}</template>
+      </template>
+    </FormItem>
+  </Col>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
-import { FormItem, Tooltip, TypographyParagraph } from '@arco-design/web-vue';
+import {
+  FormItem,
+  Col,
+  Tooltip,
+  TypographyParagraph,
+  ColProps,
+} from '@arco-design/web-vue';
 import { IconQuestionCircle } from '@arco-design/web-vue/es/icon';
 import { Schema, TDisplayType } from '../../type';
 import {
@@ -66,9 +74,8 @@ import {
   getCustomWidget,
 } from '../../models/mapping';
 import { useFormRender } from '../../models/useFormRender';
-import { getFormItemLayout } from '../../models/layout';
-import { omit } from 'lodash';
-import { transformProps } from '../../models/transformDatas';
+import { getColSpan, getFormItemLayout } from '../../models/layout';
+import { omit, pick } from 'lodash';
 import { getRuleList } from '../../models/validates';
 import { useProvider } from '../../models/useProvider';
 
@@ -87,7 +94,23 @@ const { formData, widgets } = useFormRender();
 
 const { schema } = useProvider({ parent: props.parent, schema: props.schema });
 
-console.log(schema.value);
+const span = computed(() => {
+  return getColSpan(schema.value.column, schema.value);
+});
+
+const colProps = computed((): Omit<ColProps, 'span'> => {
+  return pick(props.schema, [
+    'offset',
+    'order',
+    'flex',
+    'xs',
+    'sm',
+    'md',
+    'lg',
+    'xl',
+    'xxl',
+  ]);
+});
 
 const { required, min, max, hidden, disabled, type } = schema.value;
 // TODO:

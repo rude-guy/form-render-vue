@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import Comp from './components/col/index.vue';
+import Comp from './components/span/index.vue';
 </script>
 
 <template>

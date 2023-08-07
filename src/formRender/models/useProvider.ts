@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { Schema } from '../type';
+import { Schema, SchemaBase } from '../type';
 import { useGlobalConfig } from './useGlobalConfig';
 import { assign, omit } from 'lodash';
 
@@ -22,7 +22,7 @@ export const useProvider = (props: IProviderProps) => {
       globalConfig.value,
       omit(parent, 'properties'),
       schema
-    ) as Schema;
+    ) as SchemaBase;
   });
 
   return {

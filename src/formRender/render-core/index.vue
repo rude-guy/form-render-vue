@@ -3,15 +3,13 @@
     v-if="schema.properties"
     v-for="(item, value) of Object.entries(schema.properties)"
   >
-    <Col :span="span" v-bind="colProps">
-      <Field
-        :parent="schema"
-        :field="item[0]"
-        :column="schema.column"
-        :schema="item[1]"
-        :displayType="schema.displayType"
-      />
-    </Col>
+    <Field
+      :parent="schema"
+      :field="item[0]"
+      :column="schema.column"
+      :schema="item[1]"
+      :displayType="schema.displayType"
+    />
   </template>
 </template>
 <script setup lang="ts">
@@ -32,22 +30,5 @@ defineOptions({
 });
 
 const props = defineProps<RenderCoreProps>();
-const span = computed(() => {
-  return getColSpan(props.schema.column, props.schema);
-});
-
-const colProps = computed((): Omit<ColProps, 'span'> => {
-  return pick(props.schema, [
-    'offset',
-    'order',
-    'flex',
-    'xs',
-    'sm',
-    'md',
-    'lg',
-    'xl',
-    'xxl',
-  ]);
-});
 </script>
 <style scoped lang="scss"></style>

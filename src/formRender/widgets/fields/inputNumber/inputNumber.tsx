@@ -1,7 +1,7 @@
 import { InputNumber } from '@arco-design/web-vue';
 import type { InputNumberInstance } from '@arco-design/web-vue';
-import withFieldWrap from '../../utils/withFieldWrap';
-import { SlotTypeMap } from '../../type';
+import withFieldWrap from '../../../utils/withFieldWrap';
+import { SlotTypeMap } from '../../../type';
 
 type ArcoInputProps = InputNumberInstance['$props'];
 

@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import Comp from './components/validate/rules/index.vue';
+import Comp from './example/validate/rules/index.vue';
 </script>
 
 <template>

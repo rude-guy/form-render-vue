@@ -3,7 +3,7 @@
     <Row :gutter="24" v-bind="rowProps">
       <RenderCore :schema="props.schema" />
       <FormItem :label-col-props="{ span: 2 }">
-        <Button html-type="submit">submit</Button>
+        <Button html-type="submit" type="primary">submit</Button>
       </FormItem>
     </Row>
   </Form>

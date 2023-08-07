@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import Comp from './components/span/index.vue';
+import Comp from './components/validate/rules/index.vue';
 </script>
 
 <template>

@@ -167,21 +167,3 @@ export interface SchemaBase extends LayoutBase, FormLayout {
 }
 
 export type Schema = Partial<SchemaBase>;
-
-export interface FormLayoutProps
-  extends Pick<SchemaBase, 'displayType' | 'column'> {
-  /** 表单标签的固定宽度。 */
-  labelWidth?: string;
-
-  /** 表单项跨越的列数。 */
-  cellSpan?: number;
-
-  /** 表单项标签的对齐方式。 */
-  labelAlign?: 'left' | 'right';
-
-  /** 表单项的水平对齐方式（justify-content）。 */
-  justify?: CSSProperties['justify-content'];
-
-  /** 表单项的竖直对齐方式（align-items）。 */
-  align?: CSSProperties['align-items'];
-}

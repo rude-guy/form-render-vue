@@ -90,7 +90,7 @@ export const transformRules = (rules: FieldRule[], formData: any) => {
         if (isObject(result)) {
           return !result?.status && callback(result.message || item.message);
         }
-        return callback(item.message || result);
+        return !result && callback(item.message || result);
       };
       item.transformed = true;
     }

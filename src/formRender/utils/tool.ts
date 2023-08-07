@@ -44,3 +44,8 @@ export const renderVnode = (vnode: JSX.Element | (() => JSX.Element)) => {
 export const isFn = (value: any): value is Function => {
   return typeof value === 'function';
 };
+
+// 判断是否为空对象
+export const isEmptyObject = (obj: object) => {
+  return Object.keys(obj).length === 0;
+};

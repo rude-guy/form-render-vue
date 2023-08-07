@@ -2,6 +2,7 @@ import type { ColProps } from '@arco-design/web-vue';
 import { Schema, TDisplayType } from '../type';
 import { CSSProperties } from 'vue';
 import { assign } from 'lodash';
+import { isEmptyObject } from '../utils';
 
 export const getFormItemLayout = (
   column: number,
@@ -21,8 +22,8 @@ export const getFormItemLayout = (
   } = schema;
   let labelCol: ColProps = { span: 5 };
   let fieldCol: ColProps = { span: 19 };
-  let labelColStyle: CSSProperties = {};
-  let wrapperColStyle: CSSProperties = {};
+  let labelColStyle: CSSProperties = Object.create(null);
+  let wrapperColStyle: CSSProperties = Object.create(null);
 
   if (column === 2) {
     labelCol = { span: 7 };
@@ -68,11 +69,10 @@ export const getFormItemLayout = (
   if (_labelColStyle) {
     labelColStyle = assign(labelColStyle, _labelColStyle);
   }
-  if (labelWidth || labelWidth === 0) {
-    labelColStyle = assign(labelColStyle, {
-      flex: '0 0' + labelWidth + 'px',
-      width: labelWidth + 'px',
-    });
+  if (labelWidth || (labelWidth === 0 && displayType !== 'vertical')) {
+    labelCol = { flex: labelWidth + 'px' };
+    fieldCol = { flex: 'auto' };
+    wrapperColStyle = { width: 0 };
   }
 
   if (_wrapperColStyle) {

@@ -79,6 +79,8 @@ export interface FormProps extends LayoutBase, Partial<FormLayout> {
   autoLabelWidth?: boolean;
 }
 
+export type FRGlobalConfig = FormProps & Omit<Schema, 'ruels'> & FormLayout;
+
 export interface IWidgetExpandReturnType<Props = any> {
   widget?: string;
   props?: Props;
@@ -165,14 +167,6 @@ export interface SchemaBase extends LayoutBase, FormLayout {
 }
 
 export type Schema = Partial<SchemaBase>;
-
-// 顶层schema配置
-export interface RootSchema extends Schema {
-  column: number;
-  displayType?: TDisplayType;
-  /** 表单字段的类型 固定 object */
-  type: SchemaType;
-}
 
 export interface FormLayoutProps
   extends Pick<SchemaBase, 'displayType' | 'column'> {

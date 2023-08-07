@@ -5,6 +5,7 @@
   >
     <Col :span="span" v-bind="colProps">
       <Field
+        :parent="schema"
         :field="item[0]"
         :column="schema.column"
         :schema="item[1]"

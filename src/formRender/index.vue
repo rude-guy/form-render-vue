@@ -5,12 +5,13 @@
 </template>
 <script setup lang="ts">
 import FormCore from './form-core/index.vue';
-import { FormProps, RootSchema, Schema } from './type';
+import { FormProps, Schema } from './type';
 import { computed, shallowRef } from 'vue';
 import { provideFormRender } from './models/useFormRender';
 import { defaultWidgets } from './models/mapping';
 import { assign, omit, pick } from 'lodash';
-import { transformProps } from './models/transformDatas';
+import { transformInitProps, transformProps } from './models/transformDatas';
+import { provideGlobalConfig } from './models/useGlobalConfig';
 
 interface FCProps {
   /**
@@ -32,9 +33,11 @@ const props = defineProps<FCProps>();
 
 const widgets = shallowRef({ ...props.widgets, ...defaultWidgets });
 
-const globalConfig = shallowRef<RootSchema>({
-  ...omit(props.schema, ['properties']),
-} as RootSchema);
+const globalConfig = computed(() => {
+  const schemaConfog = omit(props.schema, 'properties');
+  const formProps = props.formProps;
+  return transformInitProps({ ...schemaConfog, ...formProps });
+});
 
 const globalFormProps = computed(() => {
   return assign(
@@ -47,6 +50,9 @@ const globalFormProps = computed(() => {
 const schemaBase = computed(() => {
   return transformProps(props.schema, globalFormProps.value);
 });
+
+// 注入全局配置
+provideGlobalConfig({ widgets, globalConfig });
 
 provideFormRender({ widgets, globalConfig, globalFormProps });
 </script>

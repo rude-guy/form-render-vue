@@ -2,10 +2,10 @@
   <Form :model="formData" v-bind="formProps" @submit="handleSubmit">
     <Row :gutter="24" v-bind="rowProps">
       <RenderCore :schema="props.schema" />
+      <FormItem :label-col-props="{ span: 2 }">
+        <Button html-type="submit">submit</Button>
+      </FormItem>
     </Row>
-    <FormItem>
-      <Button html-type="submit">submit</Button>
-    </FormItem>
   </Form>
 </template>
 <script setup lang="ts">
@@ -15,6 +15,7 @@ import RenderCore from '../render-core/index.vue';
 import { useFormRender } from '../models/useFormRender';
 import { computed } from 'vue';
 import { pick } from 'lodash';
+import { useGlobalConfig } from '../models/useGlobalConfig';
 
 interface FormCoreProps {
   schema: SchemaBase;
@@ -26,24 +27,25 @@ defineOptions({
 
 const props = defineProps<FormCoreProps>();
 
-const { formData, globalFormProps } = useFormRender();
+const { formData } = useFormRender();
+const { globalConfig } = useGlobalConfig();
 
 // 处理Form组件属性
 const formProps = computed(() => {
-  let displayType =
-    globalFormProps.value.displayType || props.schema.displayType;
   return {
-    size: globalFormProps.value.size,
-    rules: globalFormProps.value.rules,
-    layout: displayType,
-    labelAlign: globalFormProps.value.labelAlign,
-    disabled: globalFormProps.value.disabled,
-    autoLabelWidth: globalFormProps.value.autoLabelWidth,
+    layout: globalConfig.value.displayType,
+    ...pick(globalConfig.value, [
+      'size',
+      'rules',
+      'labelAlign',
+      'disabled',
+      'autoLabelWidth',
+    ]),
   };
 });
 
 const rowProps = computed((): Omit<RowProps, 'gutter'> => {
-  return pick(globalFormProps.value, ['justify', 'align', 'wrap', 'div']);
+  return pick(globalConfig.value, ['justify', 'align', 'wrap', 'div']);
 });
 
 const handleSubmit = (data: any) => {

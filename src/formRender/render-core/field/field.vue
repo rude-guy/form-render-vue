@@ -70,21 +70,24 @@ import { getFormItemLayout } from '../../models/layout';
 import { omit } from 'lodash';
 import { transformProps } from '../../models/transformDatas';
 import { getRuleList } from '../../models/validates';
+import { useProvider } from '../../models/useProvider';
 
 interface FieldItemProps {
   field: string;
   displayType: TDisplayType;
   column: number;
   schema: Schema;
+  // 父级schema
+  parent: Schema;
 }
 
 const props = defineProps<FieldItemProps>();
 
-const { formData, widgets, globalFormProps } = useFormRender();
+const { formData, widgets } = useFormRender();
 
-const schema = computed(() => {
-  return transformProps(globalFormProps.value, props.schema);
-});
+const { schema } = useProvider({ parent: props.parent, schema: props.schema });
+
+console.log(schema.value);
 
 const { required, min, max, hidden, disabled, type } = schema.value;
 // TODO:

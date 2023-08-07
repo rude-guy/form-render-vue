@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { Form, FormItem, Row, RowProps, Button } from '@arco-design/web-vue';
 import { SchemaBase } from '../type';
-import RenderCore from '../render-core/index.vue';
+import RenderCore from '../render-core/index';
 import { useFormRender } from '../models/useFormRender';
 import { computed } from 'vue';
 import { pick } from 'lodash';
@@ -53,3 +53,4 @@ const handleSubmit = (data: any) => {
 };
 </script>
 <style scoped lang="scss"></style>
+../render-core/index.tsx

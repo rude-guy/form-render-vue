@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import FormRender from '../../formRender/index.vue';
+import FormRender from '../../../formRender/index.vue';
 import schema from './config';
 </script>
 

@@ -1,5 +1,6 @@
 <script setup lang="tsx">
-import Comp from './example/validate/rules/index.vue';
+// import Comp from './example/box/card/index.vue';
+import Comp from './example/layout/col/index.vue';
 </script>
 
 <template>

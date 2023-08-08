@@ -1,5 +1,5 @@
 import { TRenderSlotType, Schema } from '../type';
-import { isFn } from '../utils';
+import { capitalizeFirstLetter, isFn } from '../utils';
 import { getWidget } from './mapping';
 
 export const getSlots = (
@@ -15,9 +15,9 @@ export const getSlots = (
     if (isFn(slot)) {
       retVal = slot(schema);
     }
-    // TODO 暂时不做 widget 的处理
     if (retVal.widget) {
-      const Widget = getWidget(retVal.widget, widgets);
+      const widgetName = capitalizeFirstLetter(retVal.widget);
+      const Widget = getWidget(widgetName, widgets);
       retVal = <Widget {...retVal?.props}></Widget>;
     }
     result[key] = () => retVal;

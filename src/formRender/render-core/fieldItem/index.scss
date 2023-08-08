@@ -1,0 +1,31 @@
+.label_desc {
+  margin-left: 8px;
+  margin-bottom: 0;
+  color: #00000073;
+  max-width: calc(100% / 3);
+}
+
+.label_title_widget {
+  margin-left: auto;
+}
+
+.form-render_field_wrap {
+  &.label_title_widget {
+    .arco-form-item-label {
+      width: 100%;
+    }
+  }
+
+  .arco-form-item-label {
+    display: flex;
+    align-items: center;
+
+    .arco-form-item-label-required-symbol {
+      flex-shrink: 0;
+    }
+
+    .label_wrap {
+      flex: auto;
+    }
+  }
+}

@@ -83,9 +83,9 @@ export interface FormProps extends LayoutBase, Partial<FormLayout> {
 
 export type FRGlobalConfig = FormProps & Omit<Schema, 'ruels'> & FormLayout;
 
-export interface IWidgetExpandReturnType<Props = any> {
+export interface IWidgetExpandReturnType {
   widget?: string;
-  props?: Props;
+  props?: Schema;
 }
 
 export type TWidgetCustomType =
@@ -95,6 +95,7 @@ export type TWidgetCustomType =
 export type TRenderSlotType =
   | JSX.Element
   | VNodeTypes
+  | TWidgetCustomType
   | ((schema?: Schema) => JSX.Element | VNodeTypes);
 
 export type SlotTypeMap<T extends string> = {
@@ -119,15 +120,11 @@ export interface SchemaBase<
   /** 气泡提示 */
   tooltip?: string;
   /** 自定义标题右侧组件 */
-  titleExtraWidget?: TWidgetCustomType;
+  titleExtraWidget?: TRenderSlotType;
   /** 更多的说明信息 */
   extra?: string;
-  /** 自定义标题extra组件 */
-  extraWidget?: TWidgetCustomType;
   /** 帮助信息 */
   help?: string;
-  /** 自定义帮助组件 */
-  helpWidget?: TWidgetCustomType;
   /** 是否必填 */
   required?: boolean;
   /** 字符串类型为字符串最小长度；数值类型时为最小值；数组类型时为数组最小长度 */

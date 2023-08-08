@@ -1,9 +1,10 @@
+import { Button } from '@arco-design/web-vue';
 import { Schema } from '../../../formRender/type';
 import { IconAlignLeft } from '@arco-design/web-vue/es/icon';
 
 const schema: Schema = {
   type: 'object',
-  displayType: 'horizontal',
+  displayType: 'vertical',
   properties: {
     obj: {
       type: 'object',
@@ -30,6 +31,7 @@ const schema: Schema = {
       },
       properties: {
         input1: {
+          titleExtraWidget: () => <Button type="primary"> 12321</Button>,
           title: '输入框 A',
           type: 'string',
         },

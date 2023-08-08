@@ -1,6 +1,6 @@
 import { PropType, defineComponent } from 'vue';
 import { Col, Row } from '@arco-design/web-vue';
-import Field from './field.vue';
+import Field from './field';
 import { Schema } from '../../type';
 import { useGlobalConfig } from '../../models/useGlobalConfig';
 import { useProvider } from '../../models/useProvider';

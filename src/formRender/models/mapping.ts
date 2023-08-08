@@ -4,7 +4,9 @@ export * as defaultWidgets from '../widgets/index';
 export const mapping: Record<string, string> = {
   default: 'input',
   string: 'input',
+  number: 'inputNumber',
   array: 'list',
+  card: 'card',
 };
 
 export function getWidgetName(schema: Schema, _mapping = mapping) {

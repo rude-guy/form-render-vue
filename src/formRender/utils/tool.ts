@@ -46,6 +46,6 @@ export const isFn = (value: any): value is Function => {
 };
 
 // 判断是否为空对象
-export const isEmptyObject = (obj: object) => {
+export const isEmptyObj = (obj: object) => {
   return Object.keys(obj).length === 0;
 };

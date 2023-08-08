@@ -67,7 +67,7 @@ import {
   ColProps,
 } from '@arco-design/web-vue';
 import { IconQuestionCircle } from '@arco-design/web-vue/es/icon';
-import { Schema, TDisplayType } from '../../type';
+import { Schema } from '../../type';
 import {
   getWidgetName,
   getWidget,
@@ -82,11 +82,9 @@ import { useGlobalConfig } from '../../models/useGlobalConfig';
 
 interface FieldItemProps {
   field: string;
-  displayType: TDisplayType;
-  column: number;
   schema: Schema;
   // 父级schema
-  parent: Schema;
+  upperCtx: Schema;
 }
 
 const props = defineProps<FieldItemProps>();
@@ -94,7 +92,10 @@ const props = defineProps<FieldItemProps>();
 const { formData } = useFormRender();
 const { widgets } = useGlobalConfig();
 
-const { schema } = useProvider({ parent: props.parent, schema: props.schema });
+const { schema } = useProvider({
+  upperCtx: props.upperCtx,
+  schema: props.schema,
+});
 
 const span = computed(() => {
   return getColSpan(schema.value.column, schema.value);
@@ -132,8 +133,8 @@ const FormComponent = computed(() => {
 });
 
 const layout = computed(() => {
-  return getFormItemLayout(props.column, schema.value, {
-    displayType: props.displayType,
+  return getFormItemLayout(schema.value.column, schema.value, {
+    displayType: schema.value.displayType,
   });
 });
 
@@ -149,7 +150,7 @@ const helpWidget = computed(() => {
 
 const labelClass = computed(() => {
   const { titleExtraWidget, description } = schema.value;
-  if (props.displayType === 'horizontal') return '';
+  if (schema.value.displayType === 'horizontal') return '';
   return titleExtraWidget || description ? 'label_title_widget' : '';
 });
 

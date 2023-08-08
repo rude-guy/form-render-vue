@@ -1,9 +1,8 @@
-import { defineComponent, ref, toRef } from 'vue';
-import { Schema, TRenderSlotType } from '../type';
+import { defineComponent, toRef } from 'vue';
+import { Schema } from '../type';
 import { useField } from '../models/useField';
-import { isFn } from './tool';
-import { getWidget } from '../models/mapping';
 import { useGlobalConfig } from '../models/useGlobalConfig';
+import { getSlots } from '../models/slot';
 
 const getProps = (props: any, filter: any[]) => {
   const result: Record<string, any> = {};
@@ -18,32 +17,9 @@ const getProps = (props: any, filter: any[]) => {
   return result;
 };
 
-const getSlots = (
-  slots: Record<string, TRenderSlotType>,
-  schema: Schema,
-  widgets: Record<string, any>
-) => {
-  const result: Record<string, () => unknown> = {};
-
-  Object.keys(slots || {}).forEach((key) => {
-    const slot: any = slots[key];
-    let retVal = slot;
-    if (isFn(slot)) {
-      retVal = slot(schema);
-    }
-    // TODO 暂时不做 widget 的处理
-    if (retVal.widget) {
-      const Widget = getWidget(retVal.widget, widgets);
-      retVal = <Widget {...retVal?.props}></Widget>;
-    }
-    result[key] = () => retVal;
-  });
-
-  return result;
-};
-
 const withFieldWrap = (Field: any, filterProps = []) => {
   return defineComponent({
+    name: Field.name,
     setup(_, { attrs }: any) {
       const props = attrs as {
         path: string;

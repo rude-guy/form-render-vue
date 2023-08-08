@@ -2,7 +2,6 @@ import type { ColProps } from '@arco-design/web-vue';
 import { Schema, TDisplayType } from '../type';
 import { CSSProperties } from 'vue';
 import { assign } from 'lodash';
-import { isEmptyObject } from '../utils';
 
 export const getFormItemLayout = (
   column: number,

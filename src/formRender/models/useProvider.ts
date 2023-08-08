@@ -1,11 +1,11 @@
 import { computed } from 'vue';
 import { Schema, SchemaBase } from '../type';
 import { useGlobalConfig } from './useGlobalConfig';
-import { assign, omit } from 'lodash';
+import { assign, pick } from 'lodash';
 
 interface IProviderProps {
   // 父级 schema
-  parent: Schema;
+  upperCtx: Schema;
   // 当前 schema
   schema: Schema;
 }
@@ -15,12 +15,18 @@ export const useProvider = (props: IProviderProps) => {
   const { globalConfig } = useGlobalConfig();
 
   const formSchema = computed(() => {
-    const { schema, parent } = props;
-    // 优先级：schema > parent > globalConfig
+    const { schema, upperCtx } = props;
+    const defaultVal = assign({}, globalConfig.value, upperCtx);
     return assign(
-      {},
-      globalConfig.value,
-      omit(parent, 'properties'),
+      // 继承布局相关的属性
+      pick(defaultVal, [
+        'labelWidth',
+        'maxWidth',
+        'labelCol',
+        'fieldCol',
+        'displayType',
+        'column',
+      ]),
       schema
     ) as SchemaBase;
   });

@@ -1,67 +1,63 @@
 import { PropType, defineComponent } from 'vue';
-import Field from './field/field.vue';
-import { SchemaBase } from '../type';
+import FieldItem from './fieldItem/index';
+import { Schema } from '../type';
+import { isEmptyObj } from '../utils';
 
-{
-  /* <template>
-  <template
-    v-if="schema.properties"
-    v-for="(item, value) of Object.entries(schema.properties)"
-  >
-    <Field
-      :parent="schema"
-      :field="item[0]"
-      :column="schema.column"
-      :schema="item[1]"
-      :displayType="schema.displayType"
+interface RenderItemProps {
+  upperCtx: Schema;
+  schema: Schema;
+  field: string;
+}
+
+const renderItem = (props: RenderItemProps) => {
+  const { upperCtx, schema, field } = props;
+
+  // TODO: 列表渲染
+  if (schema.type === 'array' && schema.item.type === 'object') {
+    return null;
+  }
+
+  let children;
+  if (schema.properties) {
+    children = <RenderCore schema={schema}></RenderCore>;
+    console.log(children, 'children');
+  }
+
+  return (
+    <FieldItem
+      upperCtx={upperCtx}
+      field={field}
+      schema={schema}
+      children={children}
     />
-  </template>
-</template>
-<script setup lang="ts">
-import { SchemaBase } from '../type';
-import Field from './field/field.vue';
-interface RenderCoreProps {
-  schema: SchemaBase;
-}
+  );
+};
 
-defineOptions({
-  name: 'renderCore',
-  inheritAttrs: false,
-});
-
-const props = defineProps<RenderCoreProps>();
-</script>
-<style scoped lang="scss"></style> */
-}
-
-export default defineComponent({
+const RenderCore = defineComponent({
   name: 'renderCore',
   inheritAttrs: false,
   props: {
     schema: {
-      type: Object as PropType<SchemaBase>,
+      type: Object as PropType<Schema>,
       required: true,
     },
   },
   setup(props) {
-    return () => {
-      const { schema } = props;
-      return (
-        <>
-          {schema.properties &&
-            Object.entries(schema.properties).map((item) => {
-              return (
-                <Field
-                  parent={schema}
-                  field={item[0]}
-                  column={schema.column}
-                  schema={item[1]}
-                  displayType={schema.displayType}
-                />
-              );
-            })}
-        </>
+    const { schema } = props;
+    if (!schema || isEmptyObj(schema)) {
+      return null;
+    }
+
+    // TODO: 列表渲染
+    if (schema?.item) {
+      return null;
+    }
+
+    return () =>
+      Object.entries(schema.properties || {}).map(([key, item]) =>
+        renderItem({ upperCtx: schema, schema: item, field: key })
       );
-    };
   },
 });
+
+export default RenderCore;

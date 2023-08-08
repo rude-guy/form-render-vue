@@ -1,4 +1,5 @@
 import { Schema } from '../../../formRender/type';
+import { IconAlignLeft } from '@arco-design/web-vue/es/icon';
 
 const schema: Schema = {
   type: 'object',
@@ -9,7 +10,24 @@ const schema: Schema = {
       widget: 'card',
       title: '卡片主题',
       description: '这是一个对象类型',
-      column: 3,
+      column: 2,
+      labelCol: 4,
+      fieldCol: 20,
+      props: {
+        // size: 'small',
+        hoverable: false,
+        headerStyle: { backgroundColor: '#f0f0f0' },
+        slots: {
+          title: () => {
+            return (
+              <div>
+                <IconAlignLeft />
+                21321
+              </div>
+            );
+          },
+        },
+      },
       properties: {
         input1: {
           title: '输入框 A',

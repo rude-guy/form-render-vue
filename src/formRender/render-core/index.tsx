@@ -20,7 +20,6 @@ const renderItem = (props: RenderItemProps) => {
   let children;
   if (schema.properties) {
     children = <RenderCore schema={schema}></RenderCore>;
-    console.log(children, 'children');
   }
 
   return (

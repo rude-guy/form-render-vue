@@ -102,7 +102,9 @@ export type SlotTypeMap<T extends string> = {
 };
 
 /** 填充默认值后的schema */
-export interface SchemaBase extends LayoutBase, FormLayout {
+export interface SchemaBase<Widget extends keyof WidgetsTypes | undefined>
+  extends LayoutBase,
+    FormLayout {
   /** 表单元素的集合 */
   properties?: { [key: string]: Schema };
   /** 表单字段的类型 */
@@ -163,9 +165,13 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   /** 自定义控件 class 名称 */
   className?: string;
   /** 额外属性配置，如果使用的是 arco 组件，则对应的是 arco 组件的其他属性 */
-  props?: WidgetsTypes[keyof WidgetsTypes];
+  props?: Widget extends keyof WidgetsTypes
+    ? WidgetsTypes[Widget]
+    : WidgetsTypes[keyof WidgetsTypes];
 
   [key: string]: any;
 }
 
-export type Schema = Partial<SchemaBase>;
+export type Schema<T = undefined> = Partial<
+  SchemaBase<T extends keyof WidgetsTypes ? T : undefined>
+>;

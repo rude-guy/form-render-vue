@@ -16,11 +16,7 @@ const BoxCard = defineComponent({
   name: 'card',
   props: {
     schema: {
-      type: Object as PropType<Schema>,
-      required: true,
-    },
-    field: {
-      type: String,
+      type: Object as PropType<Schema<'card'>>,
       required: true,
     },
     childern: {
@@ -28,13 +24,16 @@ const BoxCard = defineComponent({
       required: false,
     },
   },
-  setup(props, { attrs }) {
-    console.log(props, attrs);
+  setup(props) {
     const { schema, childern } = props;
 
     const { widgets } = useGlobalConfig();
 
-    const propsSlots = getSlots(schema.props?.slots, schema, widgets.value);
+    const propsSlots = getSlots(
+      schema.props?.slots || {},
+      schema,
+      widgets.value
+    );
 
     let titleNode = () => (
       <>

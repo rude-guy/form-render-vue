@@ -1,5 +1,7 @@
 import { CSSProperties, VNodeTypes } from 'vue';
 import type { FieldRule, ColProps, RowProps } from '@arco-design/web-vue';
+import type { WidgetsTypes } from './widgets/type';
+
 export type SchemaType =
   | 'string'
   | 'number'
@@ -91,12 +93,12 @@ export type TWidgetCustomType =
   | ((schema: Schema) => IWidgetExpandReturnType);
 
 export type TRenderSlotType =
-  | ((schema?: Schema) => JSX.Element | VNodeTypes)
   | JSX.Element
-  | VNodeTypes;
+  | VNodeTypes
+  | ((schema?: Schema) => JSX.Element | VNodeTypes);
 
-export type SlotTypeMap<T> = {
-  [K in keyof T]: TRenderSlotType;
+export type SlotTypeMap<T extends string> = {
+  [K in T]?: TRenderSlotType;
 };
 
 /** 填充默认值后的schema */
@@ -160,8 +162,8 @@ export interface SchemaBase extends LayoutBase, FormLayout {
   defaultvalue: any;
   /** 自定义控件 class 名称 */
   className?: string;
-  /** 额外属性配置，如果使用的是 antd 组件，则对应的是 antd 组件的其他属性 */
-  props?: Record<string, any>;
+  /** 额外属性配置，如果使用的是 arco 组件，则对应的是 arco 组件的其他属性 */
+  props?: WidgetsTypes[keyof WidgetsTypes];
 
   [key: string]: any;
 }

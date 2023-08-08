@@ -42,8 +42,6 @@ const FieldItem = defineComponent({
     const inlineChild = schema.value.displayType === 'inline';
 
     if (children) {
-      console.log(props, schema);
-
       let childElem = children;
       if (!inlineChild) {
         childElem = <Row gutter={24}>{children}</Row>;

@@ -9,7 +9,7 @@ import { assign } from 'lodash';
 
 type ArcoCardProps = CardInstance['$props'];
 export interface CardProps extends ArcoCardProps {
-  slots: SlotTypeMap<'append' | 'prepend' | 'suffix' | 'prefix'>;
+  slots?: SlotTypeMap<'actions' | 'cover' | 'extra' | 'title'>;
 }
 
 const BoxCard = defineComponent({

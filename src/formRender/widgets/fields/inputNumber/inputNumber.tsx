@@ -6,7 +6,7 @@ import { SlotTypeMap } from '../../../type';
 type ArcoInputProps = InputNumberInstance['$props'];
 
 export interface InputNumberProps extends ArcoInputProps {
-  slots: SlotTypeMap<
+  slots?: SlotTypeMap<
     'append' | 'prepend' | 'suffix' | 'prefix' | 'minus' | 'plus'
   >;
 }

@@ -5,7 +5,7 @@ import { SlotTypeMap } from '../../../type';
 
 type ArcoInputProps = InputInstance['$props'];
 export interface InputProps extends ArcoInputProps {
-  slots: SlotTypeMap<'append' | 'prepend' | 'suffix' | 'prefix'>;
+  slots?: SlotTypeMap<'append' | 'prepend' | 'suffix' | 'prefix'>;
 }
 
 export default withFieldWrap(Input);

@@ -3,10 +3,10 @@ import type { SelectInstance } from '@arco-design/web-vue';
 import withFieldWrap from '../../../utils/withFieldWrap';
 import { SlotTypeMap } from '../../../type';
 
-type ArcoInputProps = SelectInstance['$props'];
+type ArcoSelectProps = SelectInstance['$props'];
 
-export interface InputNumberProps extends ArcoInputProps {
-  slots: SlotTypeMap<
+export interface SelectProps extends ArcoSelectProps {
+  slots?: SlotTypeMap<
     | 'trigger'
     | 'prepend'
     | 'search-icon'

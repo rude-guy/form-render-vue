@@ -6,11 +6,12 @@ import { isEmptyObj } from '../utils';
 interface RenderItemProps {
   upperCtx: Schema;
   schema: Schema;
-  path: string;
+  path: string[] | null;
+  key: string;
 }
 
 const renderItem = (props: RenderItemProps) => {
-  const { upperCtx, schema, path } = props;
+  let { upperCtx, schema, path, key } = props;
 
   // TODO: 列表渲染
   if (schema.type === 'array' && schema.item.type === 'object') {
@@ -19,11 +20,13 @@ const renderItem = (props: RenderItemProps) => {
 
   let children;
   if (schema.properties) {
-    children = <RenderCore schema={schema}></RenderCore>;
+    children = <RenderCore schema={schema} parentPath={path!}></RenderCore>;
+    path = null;
   }
 
   return (
     <FieldItem
+      key={key}
       upperCtx={upperCtx}
       path={path}
       schema={schema}
@@ -40,9 +43,13 @@ const RenderCore = defineComponent({
       type: Object as PropType<Schema>,
       required: true,
     },
+    parentPath: {
+      type: Array as PropType<string[]>,
+      required: false,
+    },
   },
   setup(props) {
-    const { schema } = props;
+    const { schema, parentPath = [] } = props;
     if (!schema || isEmptyObj(schema)) {
       return null;
     }
@@ -53,9 +60,10 @@ const RenderCore = defineComponent({
     }
 
     return () =>
-      Object.entries(schema.properties || {}).map(([key, item]) =>
-        renderItem({ upperCtx: schema, schema: item, path: key })
-      );
+      Object.entries(schema.properties || {}).map(([key, item]) => {
+        const path = [...parentPath, key];
+        return renderItem({ upperCtx: schema, schema: item, path, key });
+      });
   },
 });
 

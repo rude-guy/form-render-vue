@@ -102,8 +102,9 @@ export type SlotTypeMap<T extends string> = {
 };
 
 /** 填充默认值后的schema */
-export interface SchemaBase<Widget extends keyof WidgetsTypes | undefined>
-  extends LayoutBase,
+export interface SchemaBase<
+  Widget extends keyof WidgetsTypes | undefined = undefined,
+> extends LayoutBase,
     FormLayout {
   /** 表单元素的集合 */
   properties?: { [key: string]: Schema };

@@ -1,7 +1,7 @@
 <template>
   <Col :span="span" v-bind="colProps">
     <FormItem
-      :field="props.path"
+      :field="getPath(props.path)"
       :label-col-props="layout.labelCol"
       :wrapper-col-props="layout.fieldCol"
       :label-col-style="layout.labelColStyle"
@@ -12,7 +12,7 @@
     >
       <component
         :is="FormComponent"
-        :path="props.path"
+        :path="getPath(props.path)"
         :schema="schema"
       ></component>
       <template #label>
@@ -79,9 +79,10 @@ import { omit, pick } from 'lodash';
 import { getRuleList } from '../../models/validates';
 import { useProvider } from '../../models/useProvider';
 import { useGlobalConfig } from '../../models/useGlobalConfig';
+import { getPath } from './modeule';
 
 interface FieldItemProps {
-  path: string;
+  path: string[];
   schema: Schema;
   // 父级schema
   upperCtx: Schema;

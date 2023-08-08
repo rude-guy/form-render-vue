@@ -10,7 +10,7 @@ const FieldItem = defineComponent({
   name: 'fieldItem',
   props: {
     path: {
-      type: String,
+      type: [Array, null] as PropType<string[] | null>,
       required: true,
     },
     schema: {
@@ -59,7 +59,7 @@ const FieldItem = defineComponent({
 
     return () => (
       <Field
-        path={path}
+        path={path as string[]}
         upperCtx={props.upperCtx}
         schema={schema.value}
       ></Field>

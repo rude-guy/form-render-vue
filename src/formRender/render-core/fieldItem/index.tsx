@@ -9,7 +9,7 @@ import { getWidget, getWidgetName } from '../../models/mapping';
 const FieldItem = defineComponent({
   name: 'fieldItem',
   props: {
-    field: {
+    path: {
       type: String,
       required: true,
     },
@@ -29,7 +29,7 @@ const FieldItem = defineComponent({
   },
   setup(props) {
     const { widgets } = useGlobalConfig();
-    const { children, field } = props;
+    const { children, path } = props;
 
     const { schema } = useProvider({
       upperCtx: props.upperCtx,
@@ -50,7 +50,7 @@ const FieldItem = defineComponent({
         <Col span={24}>
           <Widget
             schema={schema.value}
-            field={field}
+            path={path}
             childern={childElem}
           ></Widget>
         </Col>
@@ -59,7 +59,7 @@ const FieldItem = defineComponent({
 
     return () => (
       <Field
-        field={field}
+        path={path}
         upperCtx={props.upperCtx}
         schema={schema.value}
       ></Field>

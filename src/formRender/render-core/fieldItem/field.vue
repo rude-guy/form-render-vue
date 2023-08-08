@@ -1,7 +1,7 @@
 <template>
   <Col :span="span" v-bind="colProps">
     <FormItem
-      :field="props.field"
+      :field="props.path"
       :label-col-props="layout.labelCol"
       :wrapper-col-props="layout.fieldCol"
       :label-col-style="layout.labelColStyle"
@@ -12,7 +12,7 @@
     >
       <component
         :is="FormComponent"
-        :path="props.field"
+        :path="props.path"
         :schema="schema"
       ></component>
       <template #label>
@@ -81,7 +81,7 @@ import { useProvider } from '../../models/useProvider';
 import { useGlobalConfig } from '../../models/useGlobalConfig';
 
 interface FieldItemProps {
-  field: string;
+  path: string;
   schema: Schema;
   // 父级schema
   upperCtx: Schema;

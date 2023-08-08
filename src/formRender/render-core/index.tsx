@@ -6,11 +6,11 @@ import { isEmptyObj } from '../utils';
 interface RenderItemProps {
   upperCtx: Schema;
   schema: Schema;
-  field: string;
+  path: string;
 }
 
 const renderItem = (props: RenderItemProps) => {
-  const { upperCtx, schema, field } = props;
+  const { upperCtx, schema, path } = props;
 
   // TODO: 列表渲染
   if (schema.type === 'array' && schema.item.type === 'object') {
@@ -26,7 +26,7 @@ const renderItem = (props: RenderItemProps) => {
   return (
     <FieldItem
       upperCtx={upperCtx}
-      field={field}
+      path={path}
       schema={schema}
       children={children}
     />
@@ -55,7 +55,7 @@ const RenderCore = defineComponent({
 
     return () =>
       Object.entries(schema.properties || {}).map(([key, item]) =>
-        renderItem({ upperCtx: schema, schema: item, field: key })
+        renderItem({ upperCtx: schema, schema: item, path: key })
       );
   },
 });
